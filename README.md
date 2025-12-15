@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+# 🫂 Friendship — React Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Friendship** is a social web app where users can join or host events, add friends, chat in real-time, and manage profiles.  
+Built with **React**, **TypeScript**, and **.NET**, fully hosted on **Microsoft Azure**.
 
-Currently, two official plugins are available:
+🔗 **Live App:** [https://ashy-stone-09b187203.2.azurestaticapps.net/](https://ashy-stone-09b187203.2.azurestaticapps.net/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Create & join events  
+- Add & manage friends  
+- Real-time chat with **SignalR**  
+- Update profile & profile picture  
+- Secure login with **Identity + JWT**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## 🧠 Tech Overview
+
+### Frontend
+- React + TypeScript (Vite)  
+- React Router, AuthContext  
+- Custom UI with CSS & Bootstrap  
+
+### Backend
+- ASP.NET Core, Entity Framework Core  
+- Microsoft SQL, SignalR, Identity + JWT  
+- ~40 API endpoints for social features  
+
+### Hosting
+- Frontend: Azure Static Web App  
+- Backend: Azure App Service  
+- Database: Azure SQL  
+
+---
+
+## ⚙️ Setup
+
+```bash
+git clone <repository-url>
+cd friendship-frontend
+npm install
+npm run dev
 ```
+App runs on [http://localhost:5173](http://localhost:5173).
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## ✨ Related Project
+Backend: 🔗 [Friendship API](https://github.com/lukas99o/Friendship-Api/tree/master?tab=readme-ov-file)
