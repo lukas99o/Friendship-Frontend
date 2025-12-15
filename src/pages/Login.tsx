@@ -10,6 +10,7 @@ export default function Login() {
     const navigate = useNavigate();
     const { login } = useAuth(); 
     const width = document.body.clientWidth;
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/ping`)
@@ -95,15 +96,27 @@ export default function Login() {
 
                 <div className="mb-3">
                     <label className="form-label">Lösenord</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                    />
+                    <div className="input-group">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className="form-control"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-outline-secondary"
+                            onClick={() => setShowPassword(p => !p)}
+                            aria-label={showPassword ? "Dölj lösenord" : "Visa lösenord"}
+                            title={showPassword ? "Dölj lösenord" : "Visa lösenord"}
+                        >
+                            {showPassword ? "Dölj" : "Visa"}
+                        </button>
+                    </div>
                 </div>
+
 
                 {error && <div className="alert alert-danger py-1">{error}</div>}
 
