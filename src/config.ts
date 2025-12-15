@@ -1,1 +1,1 @@
-export const API_BASE_URL = "https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
