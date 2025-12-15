@@ -7,6 +7,20 @@ export default function Navbar() {
     const navigate = useNavigate();
     const logo = "/images/logo.png";
     const navbarRef = useRef<HTMLElement>(null);
+    
+    // Gemensam stil för alla nav-länkar för bättre läsbarhet på mörk bakgrund
+    const baseLinkStyle: React.CSSProperties = {
+        color: "#ffffff",
+        opacity: 0.9,
+        textDecoration: "none",
+        transition: "opacity .2s ease, color .2s ease",
+    };
+    const activeLinkStyle: React.CSSProperties = {
+        color: "#ffffff",
+        opacity: 1,
+        fontWeight: 600,
+        textUnderlineOffset: 6,
+    };
 
     const closeNavbar = () => {
         const navbarToggler = document.querySelector('.navbar-toggler') as HTMLButtonElement;
@@ -33,8 +47,10 @@ export default function Navbar() {
 
     return (
         <nav ref={navbarRef} className="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-            <div className="container" style={{ opacity: 1 }}>
-                <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}>
+            <div className="container">
+                <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}
+                    style={{ color: "#ffffff" }}
+                >
                 <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -52,6 +68,11 @@ export default function Navbar() {
                                         }
                                         to="/events"
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Evenemang
                                     </NavLink>
@@ -64,6 +85,11 @@ export default function Navbar() {
                                         to="/my-events"
                                         end={false}
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Mina Evenemang
                                     </NavLink>
@@ -75,6 +101,11 @@ export default function Navbar() {
                                         }
                                         to="/friends"
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Vänner
                                     </NavLink>
@@ -90,6 +121,11 @@ export default function Navbar() {
                                         }
                                         to="/"
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Startsida
                                     </NavLink>
@@ -101,6 +137,11 @@ export default function Navbar() {
                                         }
                                         to="/login"
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Logga in
                                     </NavLink>
@@ -112,6 +153,11 @@ export default function Navbar() {
                                         }
                                         to="/register"
                                         onClick={closeNavbar}
+                                        style={({ isActive }) => ({
+                                            ...(isActive ? activeLinkStyle : baseLinkStyle),
+                                        })}
+                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
                                         Registrera dig
                                     </NavLink>
@@ -123,7 +169,7 @@ export default function Navbar() {
                     {isLoggedIn && (
                         <>
                             <div className="d-flex align-items-center justify-content-end gap-2">
-                                <button className="navbar-profile-btn"
+                                <button className="btn btn-light"
                                     onClick={() => {
                                         navigate("/profile");
                                         closeNavbar();
@@ -135,7 +181,7 @@ export default function Navbar() {
                                     logout();
                                     navigate("/");
                                     closeNavbar();
-                                }} className="navbar-logout-btn">
+                                }} className="btn btn-light">
                                     Logga ut
                                 </button>
                             </div>
