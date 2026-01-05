@@ -5,6 +5,7 @@ import { SendFriendRequest } from '../api/friends/sendFriendRequest'
 import { AcceptFriendRequest } from '../api/friends/acceptFriendRequest'
 import { DeclineFriendRequest } from '../api/friends/declineFriendRequest'
 import { RegretFriendRequest } from '../api/friends/regretFriendRequest'
+import { RemoveFriend } from '../api/friends/removeFriend'
 import { GetConversations } from '../api/conversations/getConversations'
 import { StartPrivateConversation } from '../api/conversations/startPrivateConversation'
 import type { FriendDto, FriendRequestDto, ConversationDto } from '../types'
@@ -85,6 +86,30 @@ export default function Friends() {
     } else alert("Misslyckades med att avbryta vänförfrågan.")
   }
 
+  const removeFriend = async (friend: FriendDto) => {
+    const confirmed = window.confirm(`Vill du ta bort ${friend.username} som vän?`)
+    if (!confirmed) return
+
+    const success = await RemoveFriend(friend.username)
+    if (success) {
+      const updatedFriends = friends.filter(f => f.userId !== friend.userId)
+      setFriends(updatedFriends)
+      setFilteredFriends(prev => prev.filter(f => f.userId !== friend.userId))
+
+      if (selectedFriendId === friend.userId) {
+        setSelectedFriendId(null)
+      }
+
+      if (selectedChatUser === friend.username) {
+        setSelectedChatUser(null)
+        setChatStarted(false)
+        setConversation(null)
+      }
+    } else {
+      alert("Misslyckades med att ta bort vän.")
+    }
+  }
+
   useEffect(() => {
     const fetchFriends = async () => {
       const friendsData = await GetFriends()
@@ -130,7 +155,7 @@ export default function Friends() {
   }
 
   return (
-    <div className="container d-flex flex-column" style={{ height: width > 968 ? "75%" : "100%" }}>
+    <div className="container d-flex flex-column">
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
         {(width > 968 || (activeView && width < 968)) && (
           <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
@@ -233,6 +258,11 @@ export default function Friends() {
                                 >
                                     Chat
                                 </button>
+                              <button className="btn btn-outline-danger px-2 px-lg-4 py-1 py-lg-2"
+                                onClick={() => removeFriend(friend)}
+                              >
+                                Ta bort vän
+                              </button>
                             </div>
                         </div>
                         ))}
