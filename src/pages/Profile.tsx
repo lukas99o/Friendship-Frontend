@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { GetUser } from "../api/user/getUser";
 import { uploadProfilePicture } from "../api/user/uploadProfilePicture";
+import { deleteProfilePicture } from "../api/user/deleteProfilePicture";
 import { API_BASE_URL } from "../config";
 import { updateUserAbout } from "../api/user/updateUserAboot";
 import type { UserDto } from "../types";
@@ -55,6 +56,19 @@ export default function Profile() {
         }
     };
 
+    const handleRemoveProfilePic = async () => {
+        if (!user || !window.confirm("Är du säker på att du vill ta bort din profilbild?")) return;
+        setUploadError("");
+
+        const success = await deleteProfilePicture();
+        if (success) {
+            setUser(prev => prev ? { ...prev, profilePicturePath: null } : prev);
+            setSelectedFile(null);
+        } else {
+            setUploadError("Kunde inte ta bort bilden.");
+        }
+    };
+
     if (!user) return <div>Laddar...</div>;
 
     return (
@@ -75,8 +89,27 @@ export default function Profile() {
                                 style={{ width: 120, height: 120, objectFit: "cover", transition: "filter 0.2s" }}
                             />
                         ) : (
-                            <div className="mb-3 w-100 text-center">
-                                <label className="form-label fw-bold">Ladda upp profilbild</label>
+                            <div 
+                                className="rounded-circle border border-3 border-warning mb-3 d-flex flex-column align-items-center justify-content-center"
+                                style={{
+                                    width: 120,
+                                    height: 120,
+                                    backgroundColor: "#fff9e6",
+                                    borderStyle: "dashed",
+                                    transition: "all 0.3s ease"
+                                }}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.backgroundColor = "#ffe4b3";
+                                    e.currentTarget.style.transform = "scale(1.05)";
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.backgroundColor = "#fff9e6";
+                                    e.currentTarget.style.transform = "scale(1)";
+                                }}
+                            >
+                                <i className="bi bi-camera-fill text-warning mb-2" style={{ fontSize: "2rem" }}></i>
+                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>Klicka för att</span>
+                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>ladda upp</span>
                             </div>
                         )}
                         <input
@@ -86,22 +119,24 @@ export default function Profile() {
                             ref={fileInputRef}
                             onChange={handleFileChange}
                         />
-                        <span
-                            className="profile-pic-hover-icon"
-                            style={{
-                                display: "none",
-                                position: "absolute",
-                                bottom: 10,
-                                right: 10,
-                                background: "#ffc107",
-                                borderRadius: "50%",
-                                padding: "6px",
-                                border: "2px solid #fff",
-                                boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
-                            }}
-                        >
-                            <i className="bi bi-camera-fill text-white"></i>
-                        </span>
+                        {user.profilePicturePath && (
+                            <span
+                                className="profile-pic-hover-icon"
+                                style={{
+                                    display: "none",
+                                    position: "absolute",
+                                    bottom: 10,
+                                    right: 10,
+                                    background: "#ffc107",
+                                    borderRadius: "50%",
+                                    padding: "6px",
+                                    border: "2px solid #fff",
+                                    boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
+                                }}
+                            >
+                                <i className="bi bi-camera-fill text-white"></i>
+                            </span>
+                        )}
                     </div>
                     {selectedFile && (
                         <div className="w-100 text-center mt-2">
@@ -110,6 +145,17 @@ export default function Profile() {
                                 onClick={handleUpload}
                             >
                                 Ladda upp ny profilbild
+                            </button>
+                            {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
+                        </div>
+                    )}
+                    {user.profilePicturePath && !selectedFile && (
+                        <div className="w-100 text-center mt-2 mb-3">
+                            <button
+                                className="btn btn-outline-danger w-100"
+                                onClick={handleRemoveProfilePic}
+                            >
+                                Ta bort profilbild
                             </button>
                             {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
                         </div>

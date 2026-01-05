@@ -203,7 +203,7 @@ export default function Friends() {
                                 <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} år</p>
                             </div>
                             </div>
-                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start flex-column">
+                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start flex-md-column">
                                 <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2"
                                     onClick={() => {
                                         setSelectedFriendId(friend.userId)
