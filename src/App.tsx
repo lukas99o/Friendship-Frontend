@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
 import Slideshow from './components/Slideshow'
 import PublicRoute from './components/PublicRoute'
+import Footer from './components/Footer'
 
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +40,7 @@ export default function App() {
   }, [navigate]);
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <header>
         <Navbar />
       </header>
@@ -105,6 +106,10 @@ export default function App() {
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </main>
-    </>
+
+      <footer>
+        <Footer />
+      </footer>
+    </div>
   )
 }

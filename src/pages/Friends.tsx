@@ -155,7 +155,7 @@ export default function Friends() {
   }
 
   return (
-    <div className="container d-flex flex-column">
+    <div className="container d-flex flex-column" style={{ maxHeight: "900px" }}>
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
         {(width > 968 || (activeView && width < 968)) && (
           <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
