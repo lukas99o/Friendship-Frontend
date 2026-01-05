@@ -151,7 +151,7 @@
 }
 
 .filter-card {
-  background: linear-gradient(145deg, #fffdf7, #fff7ea);
+  background: white;
   border: 1px solid #f3e4cc;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s ease, transform 0.15s ease;
@@ -159,7 +159,6 @@
 
 .filter-card:hover {
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
 }
 
 .filter-input {

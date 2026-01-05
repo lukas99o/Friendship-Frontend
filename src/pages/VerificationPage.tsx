@@ -46,7 +46,7 @@ export default function VerificationPage() {
                 <p className="text-muted">
                     Om du inte ser mailet, kontrollera din skräppost eller klicka nedan för att få det igen.
                 </p>
-                <button className="btn btn-outline-primary mt-3" onClick={handleResendEmail}>
+                <button className="btn-orange mt-3" onClick={handleResendEmail}>
                     Skicka igen
                 </button>
             </div>

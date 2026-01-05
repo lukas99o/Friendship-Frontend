@@ -30,8 +30,8 @@ export default function VerifyEmail() {
             <div className="text-center p-4 rounded shadow bg-white">
                 {status === "loading" && <p>Verifierar e-postadress...</p>}
                 {status === "success" && <h1 className="header">Välkommen till Vänskap!</h1>}
-                {status === "success" && <p>Din e-postadress har bekräftats! Du kan nu logga in.</p>}
-                {status === "success" && <a href="/login" className="btn btn-orange mt-3">Logga in</a>}
+                {status === "success" && <p className="text-black">Din e-postadress har bekräftats! Du kan nu logga in.</p>}
+                {status === "success" && <a href="/login" className="btn btn-orange mt-3 text-white">Logga in</a>}
                 {status === "error" && <h1 className="text-danger">Oj något gick fel!</h1>}
                 {status === "error" && <p className="text-danger">Verifikationen misslyckades. Länken kan vara ogiltig eller ha gått ut.</p>}
             </div>

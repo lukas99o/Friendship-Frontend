@@ -10,6 +10,7 @@ import type { EventDto } from "../types.ts";
 
 export default function Events() {
     const [events, setEvents] = useState<EventDto[]>([]);
+    const [allEvents, setAllEvents] = useState<EventDto[]>([]);
     const [loading, setLoading] = useState(true);
     const [ageMin, setAgeMin] = useState<number | "">("");
     const [ageMax, setAgeMax] = useState<number | "">("");
@@ -19,6 +20,8 @@ export default function Events() {
     const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
     const [dateOrder, setDateOrder] = useState(false);
     const [width, setWidth] = useState(window.innerWidth);
+    const [currentPage, setCurrentPage] = useState(1);
+    const EVENTS_PER_PAGE = 10;
 
     useEffect(() => {
         const handleResize = () => {
@@ -41,8 +44,10 @@ export default function Events() {
                 const filteredEvents = allEvents.filter(e => !joined.includes(e.eventId));
                 const sorted = filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
 
-                setEvents(sorted);
+                setAllEvents(sorted);
+                setEvents(sorted.slice(0, EVENTS_PER_PAGE));
                 setAlphabeticalOrder(true);
+                setCurrentPage(1);
                 setLoading(false);
             } catch (error) {
                 console.error("Något gick fel:", error);
@@ -55,10 +60,12 @@ export default function Events() {
 
     const handleSearch = () => {
         setLoading(true);
+        setCurrentPage(1);
 
         if (showOnlyFriendsEvents) {
             GetFriendEvents().then((res) => {
-                setEvents(res);
+                setAllEvents(res);
+                setEvents(res.slice(0, EVENTS_PER_PAGE));
                 setLoading(false);
             });
         }
@@ -78,7 +85,8 @@ export default function Events() {
                     filtered = filtered.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
                 }
 
-                setEvents(filtered);
+                setAllEvents(filtered);
+                setEvents(filtered.slice(0, EVENTS_PER_PAGE));
                 setLoading(false);
             });
         }
@@ -101,6 +109,17 @@ export default function Events() {
             alert("Något gick fel, försök igen senare.");
         }
     }
+
+    const loadMore = () => {
+        const nextPage = currentPage + 1;
+        const startIdx = nextPage * EVENTS_PER_PAGE;
+        const endIdx = startIdx + EVENTS_PER_PAGE;
+        const newEvents = allEvents.slice(0, endIdx);
+        setEvents(newEvents);
+        setCurrentPage(nextPage);
+    };
+
+    const hasMore = events.length < allEvents.length;
 
     return (
         <div className="d-flex flex-column container">
@@ -213,6 +232,14 @@ export default function Events() {
                 />
                 ))}
             </div>
+
+            {hasMore && (
+                <div className="d-flex justify-content-center pb-5">
+                    <button className="btn-orange" onClick={loadMore}>
+                        Ladda fler evenemang
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
