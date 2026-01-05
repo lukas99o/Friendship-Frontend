@@ -9,7 +9,6 @@ export default function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth(); 
-    const width = document.body.clientWidth;
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
