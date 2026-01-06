@@ -7,6 +7,7 @@ interface EventCardProps {
   isJoined?: boolean; 
   onToggleJoin?: (eventId: number) => void;
   onLeave?: (eventId: number) => void; 
+  edit?: (eventId: number) => void;
   variant?: "default" | "myEvents";
 }
 
@@ -15,6 +16,7 @@ export default function EventCard({
   isJoined, 
   onToggleJoin, 
   onLeave, 
+  edit,
   variant = "default" 
 }: EventCardProps) {
   return (
@@ -67,6 +69,15 @@ export default function EventCard({
               onClick={() => onLeave(event.eventId)}
             >
               Lämna
+            </button>
+          )}
+
+          {variant === "myEvents" && edit && (
+            <button
+              className="btn mt-2 btn-outline-warning w-100"
+              onClick={() => edit(event.eventId)}
+            >
+              Redigera
             </button>
           )}
         </div>

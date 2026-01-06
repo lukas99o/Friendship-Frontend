@@ -3,7 +3,7 @@ import type { EventDto } from "../types.ts";
 import { getMyCreatedEvents, getMyJoinedEvents,  } from "../api/events/events.ts";
 import { LeaveEvent } from "../api/events/leaveEvent.ts";
 import { hostDeleteEvent } from "../api/events/deleteEvent.ts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EventCard from "../components/EventCard.tsx";
 
 export default function MyEvents() {
@@ -11,6 +11,7 @@ export default function MyEvents() {
     const [joinedEvents, setJoinedEvents] = useState<EventDto[]>([]);
     const [activeView, setActiveView] = useState<"created" | "joined">("joined");
     const [width, setWidth] = useState(document.body.clientWidth);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchEvents() {
@@ -60,13 +61,14 @@ export default function MyEvents() {
         }
     };
 
-    const renderEvents = (events: EventDto[]) => (
+    const renderEvents = (events: EventDto[], includeEditButton?: boolean) => (
         events.map((event) => (
             <EventCard 
             key={event.eventId} 
             event={event} 
             variant="myEvents" 
             onLeave={handleLeaveEvent} 
+            edit={includeEditButton ? (eventId) => navigate(`/my-events/edit/${eventId}`) : undefined}
             />
         ))
     );
@@ -117,9 +119,9 @@ export default function MyEvents() {
                     {activeView === "created" && (
                         createdEvents.length > 0 ? (
                             width > 1399 ? (
-                                <div className="d-flex flex-wrap justify-content-between gap-3">{renderEvents(createdEvents)}</div>
+                                <div className="d-flex flex-wrap justify-content-between gap-3">{renderEvents(createdEvents, true)}</div>
                             ) : (
-                                <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(createdEvents)}</div>
+                                <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(createdEvents, true)}</div>
                             )
                         ) : (
                             <div className="alert alert-info w-100 text-center">

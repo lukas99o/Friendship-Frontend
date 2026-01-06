@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Events from './pages/Events'
 import Register from './pages/Register'
 import CreateEvent from './pages/CreateEvent'
+import EditEvent from './pages/EditEvent'
 import MoreInfo from './pages/MoreInfo';
 import VerificationPage from './pages/VerificationPage'
 import ConfirmEmail from './pages/ConfirmEmail'
@@ -81,6 +82,11 @@ export default function App() {
           <Route path="my-events/create-event" element={
             <ProtectedRoute>
               <CreateEvent />
+            </ProtectedRoute>
+          } />
+          <Route path="/my-events/edit/:eventId" element={
+            <ProtectedRoute>
+              <EditEvent />
             </ProtectedRoute>
           } />
           <Route path="/my-events" element={
