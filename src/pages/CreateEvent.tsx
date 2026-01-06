@@ -15,7 +15,7 @@ export default function CreateEventPage() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [interests, setInterests] = useState<string[]>([]);
     const [isPublic, setIsPublic] = useState(true);
-    const [img, setImg] = useState("");
+    const [imgFile, setImgFile] = useState<File | null>(null);
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
 
@@ -56,7 +56,8 @@ export default function CreateEventPage() {
                 ageRangeMax: ageRangeMax === "" ? null : ageRangeMax,
                 interests: selectedInterests,
                 isPublic,
-                img
+                eventPicture: imgFile,
+                description
             });
             navigate("/my-events");
         } catch (err) {
@@ -150,7 +151,6 @@ export default function CreateEventPage() {
                                     placeholder="Beskrivning"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
-                                    required
                                 />
                                 <label htmlFor="description">Beskrivning</label>
                             </div>
@@ -189,15 +189,20 @@ export default function CreateEventPage() {
                                 <div className="col md-6 mt-4">
                                     <div className="form-floating">
                                         <input
-                                            type="text"
+                                            type="file"
                                             className="form-control"
                                             id="img"
-                                            placeholder="Bild URL"
-                                            value={img}
-                                            onChange={(e) => setImg(e.target.value)}
+                                            placeholder="Välj bild"
+                                            onChange={(e) => setImgFile(e.target.files?.[0] || null)}
+                                            accept="image/*"
                                         />
-                                        <label htmlFor="img">Bild URL</label>
+                                        <label htmlFor="img">Ladda upp bild</label>
                                     </div>
+                                    {imgFile && (
+                                        <div className="mt-2">
+                                            <small className="text-muted">Vald fil: {imgFile.name}</small>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="d-flex flex-column flex-md-row justify-content-between mt-4 gap-4">
                                     <div className="dropdown flex-grow-1">
