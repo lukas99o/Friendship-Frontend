@@ -13,7 +13,6 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    const width = document.body.clientWidth;
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/ping`)
