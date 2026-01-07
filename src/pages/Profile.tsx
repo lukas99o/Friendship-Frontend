@@ -152,7 +152,7 @@ export default function Profile() {
                     {user.profilePicturePath && !selectedFile && (
                         <div className="w-100 text-center mt-2 mb-3">
                             <button
-                                className="btn btn-outline-danger w-100"
+                                className="btn-orange"
                                 onClick={handleRemoveProfilePic}
                             >
                                 Ta bort profilbild
@@ -160,7 +160,7 @@ export default function Profile() {
                             {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
                         </div>
                     )}
-                    <h2 className="fw-bold text-orange mb-1">{user.userName}</h2>
+                    <h2 className="fw-bold text-orange mb-1 mt-3">{user.userName}</h2>
                     <span className="text-muted">{user.firstName} {user.lastName}, {user.age} år</span>
                 </div>
                 <div className="mb-3">

@@ -44,6 +44,11 @@ export async function updateEvent(eventId: number, parameters: UpdateEventParame
         body: formData
     });
 
+    if (res.status === 400) {
+        const message = await res.text();
+        throw new Error(message);
+    }
+
     if (!res.ok) {
         throw new Error("Failed to update event");
     }

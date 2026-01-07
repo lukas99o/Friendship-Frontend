@@ -43,7 +43,8 @@ export default async function CreateEvent(parameters: CreateEventParameters) {
         body: formData
     });
 
-    if (!res.ok) {
-        throw new Error("Failed to create event");
+    if (res.status === 400) {
+        const message = await res.text();
+        throw new Error(message);
     }
 }

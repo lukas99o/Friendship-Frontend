@@ -21,9 +21,9 @@ export default function EventCard({
   variant = "default" 
 }: EventCardProps) {
   return (
-    <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "600px" }}>
+    <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "525px" }}>
       {event.img && (
-        <div style={{ height: "300px", overflow: "hidden" }}>
+        <div style={{ height: "250px", overflow: "hidden" }}>
           <img
             src={`${API_BASE_URL}${event.img}`}
             alt={event.title}

@@ -88,7 +88,8 @@ export default function CreateEventPage() {
             });
             navigate("/my-events");
         } catch (err) {
-            setError("Kunde inte skapa eventet.");
+            if (err instanceof Error)
+                setError(err.message);
         }
     };
 

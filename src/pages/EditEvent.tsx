@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getInterests } from "../api/interests";
 import { readEvent } from "../api/events/readEvent";
 import { updateEvent } from "../api/events/updateEvent";
+import { formatDate } from "../utils/date";
 import type { EventDto } from "../types";
 
 function toLocalDateTimeInput(isoString: string) {
@@ -54,8 +55,8 @@ export default function EditEventPage() {
             .then((event: EventDto) => {
                 const incoming = event as EventDto & { isPublic?: boolean };
                 setTitle(event.title);
-                setStartTime(toLocalDateTimeInput(event.startTime));
-                setEndTime(toLocalDateTimeInput(event.endTime));
+                setStartTime(formatDate(event.startTime));
+                setEndTime(formatDate(event.endTime));
                 setLocation(event.location ?? "");
                 setAgeRangeMin(event.ageRangeMin ?? "");
                 setAgeRangeMax(event.ageRangeMax ?? "");
@@ -77,7 +78,34 @@ export default function EditEventPage() {
 
     const minDate = new Date();
     minDate.setSeconds(0, 0);
-    const minDateString = minDate.toISOString().slice(0, 16);
+    minDate.setMinutes(minDate.getMinutes() + 5);
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    const minDateString =
+        minDate.getFullYear() + "-" +
+        pad(minDate.getMonth() + 1) + "-" +
+        pad(minDate.getDate()) + "T" +
+        pad(minDate.getHours()) + ":" +
+        pad(minDate.getMinutes());
+
+    const getEndMin = () => {
+        if (!startTime) return minDateString; 
+
+        const d = new Date(startTime);
+        d.setMinutes(d.getMinutes() + 5);
+        d.setSeconds(0, 0);
+
+        const pad = (n: number) => n.toString().padStart(2, "0");
+
+        return (
+            d.getFullYear() + "-" +
+            pad(d.getMonth() + 1) + "-" +
+            pad(d.getDate()) + "T" +
+            pad(d.getHours()) + ":" +
+            pad(d.getMinutes())
+        );
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -119,7 +147,8 @@ export default function EditEventPage() {
             });
             navigate("/my-events");
         } catch (err) {
-            setError("Kunde inte uppdatera evenemanget.");
+            if (err instanceof Error)
+                setError(err.message);
         }
     };
 
@@ -191,7 +220,7 @@ export default function EditEventPage() {
                                             onChange={(e) => setEndTime(e.target.value)}
                                             required
                                             max={maxDate}
-                                            min={minDateString}
+                                            min={getEndMin()}
                                         />
                                         <label htmlFor="endTime">Sluttid</label>
                                     </div>
