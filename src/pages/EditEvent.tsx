@@ -6,13 +6,6 @@ import { updateEvent } from "../api/events/updateEvent";
 import { formatDate } from "../utils/date";
 import type { EventDto } from "../types";
 
-function toLocalDateTimeInput(isoString: string) {
-    const date = new Date(isoString);
-    const tzOffsetMinutes = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - tzOffsetMinutes);
-    return date.toISOString().slice(0, 16);
-}
-
 export default function EditEventPage() {
     const { eventId } = useParams();
     const navigate = useNavigate();
