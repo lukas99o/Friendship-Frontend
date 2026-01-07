@@ -7,8 +7,9 @@ import type { EventDto } from "../types";
 
 function toLocalDateTimeInput(isoString: string) {
     const date = new Date(isoString);
-    const tzOffset = date.getTimezoneOffset() * 60000;
-    return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
+    const tzOffsetMinutes = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - tzOffsetMinutes);
+    return date.toISOString().slice(0, 16);
 }
 
 export default function EditEventPage() {

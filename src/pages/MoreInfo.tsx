@@ -9,6 +9,7 @@ import { GetFriendRequests } from "../api/friends/getFriendsRequests.ts";
 import type { FriendRequestDto } from "../types.ts";
 import { RegretFriendRequest } from "../api/friends/regretFriendRequest.ts";
 import { GetFriends } from "../api/friends/getFriends.ts";
+import { API_BASE_URL } from "../config.ts";
 
 export default function MoreInfo() {
   const { eventId } = useParams();
@@ -113,7 +114,7 @@ export default function MoreInfo() {
     );
 
   return (
-    <div className="container" style={{ maxWidth: "1200px" }}>
+    <div className="container" style={{ maxWidth: "800px" }}>
       <button onClick={() => navigate(-1)} className="btn-orange mb-3">
         ← Tillbaka
       </button>
@@ -121,15 +122,23 @@ export default function MoreInfo() {
       <div className="card shadow-lg border-0" style={{ borderRadius: "20px" }}>
         {event.img && (
           <img
-            src={event.img}
+            src={`${API_BASE_URL}${event.img}`}
             alt={event.title}
             className="card-img-top"
             style={{
               maxHeight: "400px",
+              maxWidth: "800px",
+              margin: "0 auto",
               objectFit: "cover",
               borderTopLeftRadius: "20px",
               borderTopRightRadius: "20px",
             }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== event.img) {
+              target.src = event.img;
+            }
+          }}
           />
         )}
 

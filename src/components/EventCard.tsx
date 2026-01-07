@@ -1,6 +1,7 @@
 import type { EventDto } from "../types.ts";
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/date";
+import { API_BASE_URL } from "../config.ts";
 
 interface EventCardProps {
   event: EventDto;
@@ -22,9 +23,9 @@ export default function EventCard({
   return (
     <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "600px" }}>
       {event.img && (
-        <div style={{ height: "200px", overflow: "hidden" }}>
+        <div style={{ height: "300px", overflow: "hidden" }}>
           <img
-            src={event.img}
+            src={`${API_BASE_URL}${event.img}`}
             alt={event.title}
             className="w-100"
             style={{
@@ -32,6 +33,12 @@ export default function EventCard({
               height: "100%",
               width: "100%"
             }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (target.src !== event.img) {
+              target.src = event.img;
+            }
+          }}
           />
         </div>
       )}

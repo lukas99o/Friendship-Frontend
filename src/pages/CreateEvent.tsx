@@ -30,7 +30,34 @@ export default function CreateEventPage() {
 
     const minDate = new Date();
     minDate.setSeconds(0, 0);
-    const minDateString = minDate.toISOString().slice(0, 16);
+    minDate.setMinutes(minDate.getMinutes() + 5);
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    const minDateString =
+        minDate.getFullYear() + "-" +
+        pad(minDate.getMonth() + 1) + "-" +
+        pad(minDate.getDate()) + "T" +
+        pad(minDate.getHours()) + ":" +
+        pad(minDate.getMinutes());
+
+    const getEndMin = () => {
+        if (!startTime) return minDateString; 
+
+        const d = new Date(startTime);
+        d.setMinutes(d.getMinutes() + 5);
+        d.setSeconds(0, 0);
+
+        const pad = (n: number) => n.toString().padStart(2, "0");
+
+        return (
+            d.getFullYear() + "-" +
+            pad(d.getMonth() + 1) + "-" +
+            pad(d.getDate()) + "T" +
+            pad(d.getHours()) + ":" +
+            pad(d.getMinutes())
+        );
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -123,7 +150,7 @@ export default function CreateEventPage() {
                                             onChange={(e) => setEndTime(e.target.value)}
                                             required
                                             max={maxDate}
-                                            min={minDateString}
+                                            min={getEndMin()}
                                         />
                                         <label htmlFor="endTime">Sluttid</label>
                                     </div>
