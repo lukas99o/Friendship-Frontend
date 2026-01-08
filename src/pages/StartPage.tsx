@@ -11,7 +11,7 @@ export default function StartPage() {
     return (
         <div
             className="d-flex flex-column align-items-center pb-5 px-3"
-            style={{ minHeight: "85vh", fontFamily: "'Nunito', sans-serif" }}
+            style={{ fontFamily: "'Nunito', sans-serif" }}
         >
             <h1 className="fancy-title mb-4 text-center">Välkommen till Vänskap!</h1>
 

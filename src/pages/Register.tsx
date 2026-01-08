@@ -137,7 +137,7 @@ export default function Register() {
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         required
-                        maxLength={50}
+                        maxLength={12}
                     />
                 </div>
 

@@ -13,7 +13,8 @@ export default function PrivateChat({ conversationId, senderId }: Props) {
   const [messages, setMessages] = useState<ConversationMessageDto[]>([]);
   const [messageText, setMessageText] = useState("");
   const connectionRef = useRef<signalR.HubConnection | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const shouldScrollRef = useRef(false);
 
   useEffect(() => {
     if (!conversationId) {
@@ -22,7 +23,10 @@ export default function PrivateChat({ conversationId, senderId }: Props) {
     }
 
     GetConversationMessages(conversationId)
-      .then(fetchedMessages => setMessages(fetchedMessages))
+      .then(fetchedMessages => {
+        setMessages(fetchedMessages);
+        shouldScrollRef.current = true; 
+      })
       .catch(err => {
         setMessages([]);
         console.error("Kunde inte hämta meddelanden:", err);
@@ -57,18 +61,22 @@ export default function PrivateChat({ conversationId, senderId }: Props) {
   }, [conversationId]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (shouldScrollRef.current && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      shouldScrollRef.current = false;
+    }
   }, [messages]);
 
   const sendMessage = async () => {
     if (!messageText.trim() || !connectionRef.current || !conversationId) return;
     await connectionRef.current.invoke("SendMessage", conversationId, senderId, messageText);
     setMessageText("");
+    shouldScrollRef.current = true; 
   };
 
   return (
     <div className="d-flex flex-column h-100">
-      <div className="flex-grow-1 overflow-auto p-3 border rounded-3 mb-3 bg-white shadow-sm" style={{ background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}>
+      <div ref={chatContainerRef} className="flex-grow-1 overflow-auto p-3 border rounded-3 mb-3 bg-white shadow-sm" style={{ background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}>
         {messages.length ? messages.map(msg => (
           <div key={msg.messageId} className="mb-2">
             <strong className="text-orange">{msg.senderName}</strong>
@@ -82,7 +90,6 @@ export default function PrivateChat({ conversationId, senderId }: Props) {
             <small>Var första att skriva!</small>
           </div>
         )}
-        <div ref={bottomRef}></div>
       </div>
 
       <div className="input-group shadow-sm">

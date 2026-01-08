@@ -168,7 +168,7 @@ export default function Friends() {
                 </div>
 
                 {chatStarted && (
-                  <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "200px" }}>
+                  <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "400px" }}>
                     <PrivateChat
                       conversationId={conversation?.conversationId}
                       senderId={userId}
@@ -289,7 +289,7 @@ export default function Friends() {
                 </div>
 
                 {chatStarted && (
-                  <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "200px" }}>
+                  <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "300px" }} >
                     <PrivateChat
                       conversationId={conversation?.conversationId}
                       senderId={userId}

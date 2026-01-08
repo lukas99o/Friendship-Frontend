@@ -35,7 +35,7 @@ export default function Profile() {
             setUser(prev => prev ? { ...prev, profilePicturePath: path } : prev);
             setSelectedFile(null);
         } else {
-            setUploadError("Kunde inte ladda upp bilden.");
+            setUploadError("Max 2mb. Endast jpg, png och jpeg är tillåtna.");
         }
     };
 

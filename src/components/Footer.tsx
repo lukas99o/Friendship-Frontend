@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="bg-dark text-light text-center py-3" style={{ borderTop: '2px solid #f7931e' }}>
             <div className="container">
-                <p className="mb-1"><strong>Friendship App</strong> - A social networking platform for events</p>
+                <p className="mb-1"><strong>Friendship App</strong> - A social networking platform</p>
                 <p className="mb-1">
                     <a target="_blank" rel="noopener noreferrer" href="https://github.com/lukas99o/friendship-frontend" className="text-light me-3">GitHub</a>
                     <a target="_blank" rel="noopener noreferrer" href="mailto:lukas99o@hotmail.com" className="text-light me-3">Contact</a>
