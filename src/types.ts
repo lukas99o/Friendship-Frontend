@@ -9,7 +9,7 @@ export interface EventDto {
   title: string;
   startTime: string;
   endTime: string;
-  location: string;
+  location?: string;
   ageRangeMax: number;
   ageRangeMin: number;
   interests: string[];
