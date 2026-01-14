@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD wf
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
@@ -18,9 +18,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          submodules: true
-          lfs: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -28,29 +25,15 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Deploy to Azure Static Web Apps
-        id: builddeploy
+      - name: Build and Deploy to Azure Static Web Apps
+        id: swa
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_STONE_09B187203 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"              # Root of your app
-          output_location: "dist"        # Adjust if build output is elsewhere
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_STONE_09B187203 }}
-          action: "close"
-
-
+          app_location: "/"         
+          output_location: "dist"   
+          skip_app_build: false     
