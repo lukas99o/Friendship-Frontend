@@ -28,7 +28,7 @@ export default function Login() {
             loginEmail = "iamtest@test.com";
             loginPassword = "Test123!";
         }
-
+ 
         try {
             const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: "POST",
