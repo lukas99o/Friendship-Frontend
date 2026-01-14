@@ -98,7 +98,7 @@ export default function Login() {
                 </div>
 
 
-                {error && <div className="alert alert-danger py-1">{error}</div>}
+                {error && <div className="alert alert-danger py-1" role="alert">{error}</div>}
 
                     <button type="submit" className="btn-orange w-100" >Logga in</button>
 

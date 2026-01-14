@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 export default function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
-    const logo = "/images/logo.png";
+    const logo = "/images/logo.avif";
     const navbarRef = useRef<HTMLElement>(null);
     
     // Gemensam stil för alla nav-länkar för bättre läsbarhet på mörk bakgrund
@@ -53,7 +53,15 @@ export default function Navbar() {
                 >
                 <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
                 </NavLink>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Visa eller dölj menyn"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 

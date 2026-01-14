@@ -106,8 +106,9 @@ export default function Register() {
                 <h1 className="mb-4 text-center header">Registrera dig</h1>
                 <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
                 <div className="mb-3">
-                    <label className="form-label">Förnamn</label>
+                    <label className="form-label" htmlFor="firstName">Förnamn</label>
                     <input
+                        id="firstName"
                         type="text"
                         className="form-control"
                         value={firstName}
@@ -118,8 +119,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Efternamn</label>
+                    <label className="form-label" htmlFor="lastName">Efternamn</label>
                     <input
+                        id="lastName"
                         type="text"
                         className="form-control"
                         value={lastName}
@@ -130,8 +132,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Användarnamn</label>
+                    <label className="form-label" htmlFor="userName">Användarnamn</label>
                     <input
+                        id="userName"
                         type="text"
                         className="form-control"
                         value={userName}
@@ -142,8 +145,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Födelsedatum</label>
+                    <label className="form-label" htmlFor="dateOfBirth">Födelsedatum</label>
                     <input
+                        id="dateOfBirth"
                         type="date"
                         className="form-control"
                         value={dateOfBirth}
@@ -154,8 +158,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Email</label>
+                    <label className="form-label" htmlFor="registerEmail">Email</label>
                     <input
+                        id="registerEmail"
                         type="email"
                         className="form-control"
                         value={email}
@@ -165,8 +170,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Lösenord</label>
+                    <label className="form-label" htmlFor="registerPassword">Lösenord</label>
                     <input
+                        id="registerPassword"
                         type="password"
                         className="form-control"
                         value={password}
@@ -176,8 +182,9 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Bekräfta lösenord</label>
+                    <label className="form-label" htmlFor="confirmPassword">Bekräfta lösenord</label>
                     <input
+                        id="confirmPassword"
                         type="password"
                         className="form-control"
                         value={confirmPassword}
@@ -186,7 +193,7 @@ export default function Register() {
                     />
                 </div>
 
-                {error && <div className="alert alert-danger py-1">{error}</div>}
+                {error && <div className="alert alert-danger py-1" role="alert">{error}</div>}
 
                 <button type="submit" className="btn-orange w-100">Registrera</button>
 

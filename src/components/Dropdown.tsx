@@ -1,5 +1,5 @@
 import { getInterests } from "../api/interests";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 
 type DropdownProps = {
   selectedInterests: string[];
@@ -9,6 +9,8 @@ type DropdownProps = {
 export default function Dropdown({ selectedInterests, onChange }: DropdownProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [interests, setInterests] = useState<string[]>([]);
+  const dropdownId = useId();
+  const listId = `${dropdownId}-list`;
 
   const toggleInterest = (interest: string) => {
     const updated = selectedInterests.includes(interest)
@@ -25,9 +27,12 @@ export default function Dropdown({ selectedInterests, onChange }: DropdownProps)
     <div className="dropdown w-full" style={{ position: "relative" }}>
       <button
         className="btn btn-secondary dropdown-toggle w-full"
+        id={dropdownId}
         type="button"
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
+        aria-haspopup="listbox"
+        aria-controls={listId}
         style={{ zIndex: 10000 }}
       >
         {selectedInterests.length > 0
@@ -36,6 +41,8 @@ export default function Dropdown({ selectedInterests, onChange }: DropdownProps)
       </button>
       <ul
         className={`dropdown-menu${dropdownOpen ? " show" : ""}`}
+        id={listId}
+        aria-labelledby={dropdownId}
         style={{ maxHeight: "200px", overflowY: "auto" }}
       >
         {interests.map((interest) => (
