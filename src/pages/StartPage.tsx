@@ -30,10 +30,12 @@ export default function StartPage() {
                     }}
                 >
                     <video
-                        src="/videos/vänskap-flöde.mp4"
+                        src="/videos/flöde.mp4"
                         autoPlay
                         muted
                         loop
+                        playsInline
+                        preload="none"
                         style={{
                             width: "100%",
                             height: "100%",
