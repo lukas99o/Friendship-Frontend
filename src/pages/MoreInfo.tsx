@@ -210,12 +210,16 @@ export default function MoreInfo() {
 
           <div className="mt-5">
             <h5 className="mb-3">💬 Meddelanden</h5>
-            {event && (
+            {event && event.eventParticipants?.some(p => p.userName === username) ? (
               <EventChat
                 conversationId={event.conversationId}
                 senderId={userId}
                 messageList={event.eventMessages}
               />
+            ) : (
+              <div className="alert alert-info" role="alert">
+                <p className="mb-0">Gå med i eventet för att kunna skicka meddelanden.</p>
+              </div>
             )}
           </div>
         </div>
