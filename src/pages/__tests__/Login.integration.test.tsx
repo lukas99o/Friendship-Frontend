@@ -29,22 +29,25 @@ describe('Login integration', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     fetchMock = vi.fn()
-    global.fetch = fetchMock as unknown as typeof fetch
+    vi.stubGlobal('fetch', fetchMock)
   })
 
   afterEach(() => {
     vi.resetAllMocks()
+    vi.unstubAllGlobals()
   })
 
   it('loggar in och navigerar vid lyckad inloggning', async () => {
     const user = userEvent.setup()
 
-    fetchMock.mockResolvedValueOnce(
-      new Response(
-        JSON.stringify({ token: 'jwt-token', username: 'TestUser', userId: 'user-1' }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+    fetchMock
+      .mockResolvedValueOnce(new Response(null, { status: 200 }))
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ token: 'jwt-token', username: 'TestUser', userId: 'user-1' }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        )
       )
-    )
 
     render(
       <MemoryRouter>
@@ -65,7 +68,9 @@ describe('Login integration', () => {
   it('visar felmeddelande vid ogiltiga uppgifter', async () => {
     const user = userEvent.setup()
 
-    fetchMock.mockResolvedValueOnce(new Response('Fel', { status: 401 }))
+    fetchMock
+    .mockResolvedValueOnce(new Response(null, { status: 200 }))
+    .mockResolvedValueOnce(new Response('Felaktig e-post eller lösenord.', { status: 401 }))
 
     render(
       <MemoryRouter>
@@ -85,9 +90,9 @@ describe('Login integration', () => {
   it('visar bekräftelsekrav när API svarar med texten', async () => {
     const user = userEvent.setup()
 
-    fetchMock.mockResolvedValueOnce(
-      new Response('Du måste bekräfta din e-post först.', { status: 400 })
-    )
+    fetchMock
+    .mockResolvedValueOnce(new Response(null, { status: 200 }))
+    .mockResolvedValueOnce(new Response('Du måste bekräfta din e-post först.', { status: 400 }))
 
     render(
       <MemoryRouter>

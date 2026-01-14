@@ -61,8 +61,9 @@ export default function Login() {
                 <h1 className="mb-4 text-center header">Logga in</h1>
                 <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
                 <div className="mb-3">
-                    <label className="form-label">Email</label>
+                    <label className="form-label" htmlFor="email">Email</label>
                     <input
+                        id="email"
                         type="email"
                         className="form-control"
                         placeholder="namn@email.com"
@@ -73,9 +74,10 @@ export default function Login() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Lösenord</label>
+                    <label className="form-label" htmlFor="password">Lösenord</label>
                     <div className="input-group">
                         <input
+                            id="password"
                             type={showPassword ? "text" : "password"}
                             className="form-control"
                             placeholder="••••••••"
@@ -98,7 +100,7 @@ export default function Login() {
 
                 {error && <div className="alert alert-danger py-1">{error}</div>}
 
-                <button type="submit" className="btn-orange w-100">Logga in</button>
+                    <button type="submit" className="btn-orange w-100" >Logga in</button>
 
                 <div className="text-center mt-3">
                     <span>Har du inget konto? </span>
