@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ashy-stone-09b187203.2.azurestaticapps.net/sitemap.xml
