@@ -8,7 +8,7 @@ export default function Navbar() {
     const logo = "/images/logo.avif";
     const navbarRef = useRef<HTMLElement>(null);
     
-    // Gemensam stil för alla nav-länkar för bättre läsbarhet på mörk bakgrund
+    // Shared style for all nav links for better readability on dark background
     const baseLinkStyle: React.CSSProperties = {
         color: "#ffffff",
         opacity: 0.9,
@@ -51,7 +51,7 @@ export default function Navbar() {
                 <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}
                     style={{ color: "#ffffff" }}
                 >
-                <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
+                <img src={logo} alt="Friendship" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
                 </NavLink>
                 <button
                     className="navbar-toggler"
@@ -60,7 +60,7 @@ export default function Navbar() {
                     data-bs-target="#navbarNav"
                     aria-controls="navbarNav"
                     aria-expanded="false"
-                    aria-label="Visa eller dölj menyn"
+                    aria-label="Show or hide menu"
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -82,7 +82,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Evenemang
+                                        Events
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
@@ -99,7 +99,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Mina Evenemang
+                                        My Events
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
@@ -115,7 +115,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Vänner
+                                        Friends
                                     </NavLink>
                                 </li>
                             </>
@@ -135,7 +135,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Startsida
+                                        Home
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
@@ -151,7 +151,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Logga in
+                                        Log in
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
@@ -167,7 +167,7 @@ export default function Navbar() {
                                         onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
                                         onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
                                     >
-                                        Registrera dig
+                                        Sign up
                                     </NavLink>
                                 </li>
                             </>
@@ -183,14 +183,14 @@ export default function Navbar() {
                                         closeNavbar();
                                     }}
                                 >
-                                    Profil
+                                    Profile
                                 </button>
                                 <button onClick={() => {
                                     logout();
                                     navigate("/");
                                     closeNavbar();
                                 }} className="btn btn-light">
-                                    Logga ut
+                                    Log out
                                 </button>
                             </div>
                         </>

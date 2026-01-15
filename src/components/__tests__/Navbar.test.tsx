@@ -9,7 +9,7 @@ vi.mock('../../context/authContext', () => ({
 }))
 
 describe('Navbar', () => {
-  it('renderar navbar-komponent', () => {
+  it('renders navbar component', () => {
     vi.mocked(authContext.useAuth).mockReturnValue({
       isLoggedIn: false,
       login: vi.fn(),
@@ -28,7 +28,7 @@ describe('Navbar', () => {
     expect(nav).toBeInTheDocument()
   })
 
-  it('visar inloggningslänk när användaren inte är inloggad', () => {
+  it('shows login link when user is logged out', () => {
     vi.mocked(authContext.useAuth).mockReturnValue({
       isLoggedIn: false,
       login: vi.fn(),
@@ -43,10 +43,10 @@ describe('Navbar', () => {
       </BrowserRouter>
     )
 
-    expect(screen.getByText('Logga in')).toBeInTheDocument()
+    expect(screen.getByText('Log in')).toBeInTheDocument()
   })
 
-  it('visar användarmenyn när användaren är inloggad', () => {
+  it('shows user menu when user is logged in', () => {
     vi.mocked(authContext.useAuth).mockReturnValue({
       isLoggedIn: true,
       login: vi.fn(),
@@ -61,10 +61,10 @@ describe('Navbar', () => {
       </BrowserRouter>
     )
 
-    expect(screen.getByText('Logga ut')).toBeInTheDocument()
+    expect(screen.getByText('Log out')).toBeInTheDocument()
   })
 
-  it('visar logo', () => {
+  it('shows logo', () => {
     vi.mocked(authContext.useAuth).mockReturnValue({
       isLoggedIn: false,
       login: vi.fn(),
@@ -79,7 +79,7 @@ describe('Navbar', () => {
       </BrowserRouter>
     )
 
-    const logo = screen.getByAltText('Vänskap')
+    const logo = screen.getByAltText('Friendship')
     expect(logo).toBeInTheDocument()
   })
 })

@@ -37,7 +37,7 @@ describe('Login integration', () => {
     vi.unstubAllGlobals()
   })
 
-  it('loggar in och navigerar vid lyckad inloggning', async () => {
+  it('logs in and navigates on success', async () => {
     const user = userEvent.setup()
 
     fetchMock
@@ -56,8 +56,8 @@ describe('Login integration', () => {
     )
 
     await user.type(screen.getByLabelText('Email'), 'test@test.com')
-    await user.type(screen.getByLabelText('Lösenord'), 'Secret123!')
-    await user.click(screen.getByRole('button', { name: 'Logga in' }))
+    await user.type(screen.getByLabelText('Password'), 'Secret123!')
+    await user.click(screen.getByRole('button', { name: 'Log in' }))
 
     await waitFor(() => {
       expect(mockLogin).toHaveBeenCalledWith('jwt-token', 'TestUser', 'user-1')
@@ -65,7 +65,7 @@ describe('Login integration', () => {
     })
   })
 
-  it('visar felmeddelande vid ogiltiga uppgifter', async () => {
+  it('shows an error message for invalid credentials', async () => {
     const user = userEvent.setup()
 
     fetchMock
@@ -79,15 +79,15 @@ describe('Login integration', () => {
     )
 
     await user.type(screen.getByLabelText('Email'), 'fel@test.com')
-    await user.type(screen.getByLabelText('Lösenord'), 'wrongpass')
-    await user.click(screen.getByRole('button', { name: 'Logga in' }))
+    await user.type(screen.getByLabelText('Password'), 'wrongpass')
+    await user.click(screen.getByRole('button', { name: 'Log in' }))
 
-    expect(await screen.findByText('Felaktig e-post eller lösenord.')).toBeInTheDocument()
+    expect(await screen.findByText('Incorrect email or password.')).toBeInTheDocument()
     expect(mockLogin).not.toHaveBeenCalled()
     expect(mockNavigate).not.toHaveBeenCalled()
   })
 
-  it('visar bekräftelsekrav när API svarar med texten', async () => {
+  it('shows confirmation requirement when API responds with that text', async () => {
     const user = userEvent.setup()
 
     fetchMock
@@ -101,11 +101,11 @@ describe('Login integration', () => {
     )
 
     await user.type(screen.getByLabelText('Email'), 'test@test.com')
-    await user.type(screen.getByLabelText('Lösenord'), 'Secret123!')
-    await user.click(screen.getByRole('button', { name: 'Logga in' }))
+    await user.type(screen.getByLabelText('Password'), 'Secret123!')
+    await user.click(screen.getByRole('button', { name: 'Log in' }))
 
     expect(
-      await screen.findByText('Du måste bekräfta din e-post först.')
+      await screen.findByText('You need to confirm your email first.')
     ).toBeInTheDocument()
     expect(mockLogin).not.toHaveBeenCalled()
   })

@@ -10,7 +10,7 @@ export default function FriendProfile({ userId }: { userId: string }) {
         GetUser(userId).then(data => setUser(data));
     }, [userId]);
 
-    if (!user) return <div>Laddar...</div>;
+    if (!user) return <div>Loading...</div>;
 
     return (
         <div className="container d-flex justify-content-center profile-container pb-5">
@@ -19,7 +19,7 @@ export default function FriendProfile({ userId }: { userId: string }) {
                     {user.profilePicturePath ? (
                         <img
                             src={`${API_BASE_URL}${user.profilePicturePath}`}
-                            alt="Profilbild"
+                            alt="Profile picture"
                             className="rounded-circle border border-3 border-warning mb-3"
                             style={{ width: 120, height: 120, objectFit: "cover" }}
                         />
@@ -29,10 +29,10 @@ export default function FriendProfile({ userId }: { userId: string }) {
                         </div>
                     )}
                     <h2 className="fw-bold text-orange mb-1">{user.userName}</h2>
-                    <span className="text-muted">{user.firstName} {user.lastName}, {user.age} år</span>
+                    <span className="text-muted">{user.firstName} {user.lastName}, {user.age} years</span>
                 </div>
                 <div className="mb-3">
-                    <h5 className="fw-bold text-orange mb-2">Om mig</h5>
+                    <h5 className="fw-bold text-orange mb-2">About me</h5>
                     <div className="bg-light rounded p-3">
                         <p
                             className="mb-0 border p-2 shadow-sm rounded"
@@ -45,7 +45,7 @@ export default function FriendProfile({ userId }: { userId: string }) {
                         >
                             {user.about && user.about.trim() !== ""
                                 ? user.about
-                                : <span className="text-muted">Ingen beskrivning ännu.</span>
+                                : <span className="text-muted">No description yet.</span>
                             }
                         </p>
                     </div>

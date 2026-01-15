@@ -35,13 +35,13 @@ export default function Profile() {
             setUser(prev => prev ? { ...prev, profilePicturePath: path } : prev);
             setSelectedFile(null);
         } else {
-            setUploadError("Max 2mb. Endast jpg, png och jpeg är tillåtna.");
+            setUploadError("Max 2MB. Only JPG, PNG, and JPEG are allowed.");
         }
     };
 
     const handleAboutSave = async () => {
         if (!aboutText.trim() || !user) {
-            setAboutError("Du måste skriva något om dig själv.");
+            setAboutError("You need to write something about yourself.");
             return;
         }
         setAboutError("");
@@ -57,7 +57,7 @@ export default function Profile() {
     };
 
     const handleRemoveProfilePic = async () => {
-        if (!user || !window.confirm("Är du säker på att du vill ta bort din profilbild?")) return;
+        if (!user || !window.confirm("Are you sure you want to remove your profile picture?")) return;
         setUploadError("");
 
         const success = await deleteProfilePicture();
@@ -65,11 +65,11 @@ export default function Profile() {
             setUser(prev => prev ? { ...prev, profilePicturePath: null } : prev);
             setSelectedFile(null);
         } else {
-            setUploadError("Kunde inte ta bort bilden.");
+            setUploadError("Could not remove the picture.");
         }
     };
 
-    if (!user) return <div>Laddar...</div>;
+    if (!user) return <div>Loading...</div>;
 
     return (
         <div className="container d-flex justify-content-center profile-container pb-5">
@@ -84,7 +84,7 @@ export default function Profile() {
                         {user.profilePicturePath ? (
                             <img
                                 src={`${API_BASE_URL}${user.profilePicturePath}`}
-                                alt="Profilbild"
+                                alt="Profile picture"
                                 className="rounded-circle border border-3 border-warning mb-3"
                                 style={{ width: 120, height: 120, objectFit: "cover", transition: "filter 0.2s" }}
                             />
@@ -108,8 +108,8 @@ export default function Profile() {
                                 }}
                             >
                                 <i className="bi bi-camera-fill text-warning mb-2" style={{ fontSize: "2rem" }}></i>
-                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>Klicka för att</span>
-                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>ladda upp</span>
+                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>Click to</span>
+                                <span className="text-warning fw-bold" style={{ fontSize: "0.75rem" }}>upload</span>
                             </div>
                         )}
                         <input
@@ -144,7 +144,7 @@ export default function Profile() {
                                 className="btn btn-warning w-100 mb-3"
                                 onClick={handleUpload}
                             >
-                                Ladda upp ny profilbild
+                                Upload new profile picture
                             </button>
                             {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
                         </div>
@@ -155,16 +155,16 @@ export default function Profile() {
                                 className="btn-orange"
                                 onClick={handleRemoveProfilePic}
                             >
-                                Ta bort profilbild
+                                Remove profile picture
                             </button>
                             {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
                         </div>
                     )}
                     <h2 className="fw-bold text-orange mb-1 mt-3">{user.userName}</h2>
-                    <span className="text-muted">{user.firstName} {user.lastName}, {user.age} år</span>
+                    <span className="text-muted">{user.firstName} {user.lastName}, {user.age} years</span>
                 </div>
                 <div className="mb-3">
-                    <h5 className="fw-bold text-orange mb-2">Om mig</h5>
+                    <h5 className="fw-bold text-orange mb-2">About me</h5>
                     <div className="bg-light rounded p-3">
                         {editingAbout ? (
                             <div>
@@ -173,14 +173,14 @@ export default function Profile() {
                                     rows={3}
                                     value={aboutText}
                                     onChange={e => setAboutText(e.target.value)}
-                                    placeholder="Skriv något om dig själv..."
+                                    placeholder="Write something about yourself..."
                                     maxLength={150}
                                 />
                                 <button className="btn btn-warning me-2" onClick={handleAboutSave}>
-                                    Spara
+                                    Save
                                 </button>
                                 <button className="btn btn-outline-secondary" onClick={() => setEditingAbout(false)}>
-                                    Avbryt
+                                    Cancel
                                 </button>
                                 {aboutError && <div className="text-danger mt-2">{aboutError}</div>}
                             </div>
@@ -197,14 +197,14 @@ export default function Profile() {
                                 >
                                     {user.about}
                                 </p>
-                                <button className="btn btn-outline-secondary" onClick={() => { setEditingAbout(true); setAboutText(user.about ? user.about : ""); }}>Ändra</button>
+                                <button className="btn btn-outline-secondary" onClick={() => { setEditingAbout(true); setAboutText(user.about ? user.about : ""); }}>Edit</button>
                             </div>
                         ) : (
                             <button
                                 className="btn-orange"
                                 onClick={() => { setEditingAbout(true); setAboutText(""); }}
                             >
-                                Skriv om dig själv
+                                Write about yourself
                             </button>
                         )}
                     </div>

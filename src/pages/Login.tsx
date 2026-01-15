@@ -39,9 +39,9 @@ export default function Login() {
             if (!res.ok) {
                 const errorText = await res.text();
                 if (errorText === "Du måste bekräfta din e-post först.") {
-                    setError("Du måste bekräfta din e-post först.");
+                    setError("You need to confirm your email first.");
                 } else {
-                    setError("Felaktig e-post eller lösenord.");
+                    setError("Incorrect email or password.");
                 }
 
                 return;
@@ -51,22 +51,22 @@ export default function Login() {
             login(data.token, data.username, data.userId);
             navigate("/events");
         } catch {
-            setError("Något gick fel.");
+            setError("Something went wrong.");
         }
     }
 
     return (
         <div className="container d-flex justify-content-center pb-5" style={{ height: "fit-content" }}>
             <form onSubmit={handleLogin} className="p-4 rounded shadow bg-white" style={{ width: "400px" }}>
-                <h1 className="mb-4 text-center header">Logga in</h1>
-                <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
+                <h1 className="mb-4 text-center header">Log in</h1>
+                <p className="fs-6 border p-2 text-center">It can take up to 1 minute for Azure to warm up the Friendship API when the app has been in standby. Grab a coffee and try again shortly.</p>
                 <div className="mb-3">
                     <label className="form-label" htmlFor="email">Email</label>
                     <input
                         id="email"
                         type="email"
                         className="form-control"
-                        placeholder="namn@email.com"
+                        placeholder="name@email.com"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
@@ -74,7 +74,7 @@ export default function Login() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="password">Lösenord</label>
+                    <label className="form-label" htmlFor="password">Password</label>
                     <div className="input-group">
                         <input
                             id="password"
@@ -89,10 +89,10 @@ export default function Login() {
                             type="button"
                             className="btn btn-outline-secondary"
                             onClick={() => setShowPassword(p => !p)}
-                            aria-label={showPassword ? "Dölj lösenord" : "Visa lösenord"}
-                            title={showPassword ? "Dölj lösenord" : "Visa lösenord"}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            title={showPassword ? "Hide password" : "Show password"}
                         >
-                            {showPassword ? "Dölj" : "Visa"}
+                            {showPassword ? "Hide" : "Show"}
                         </button>
                     </div>
                 </div>
@@ -100,12 +100,12 @@ export default function Login() {
 
                 {error && <div className="alert alert-danger py-1" role="alert">{error}</div>}
 
-                    <button type="submit" className="btn-orange w-100" >Logga in</button>
+                    <button type="submit" className="btn-orange w-100" >Log in</button>
 
                 <div className="text-center mt-3">
-                    <span>Har du inget konto? </span>
-                    <Link to="/register">Registrera dig</Link>
-                    <p className="fs-6 mb-0">Logga in som <button type="button" className="btn btn-link p-0 align-baseline" onClick={(e) => handleLogin(e, true)}>gäst</button></p>
+                    <span>Don't have an account? </span>
+                    <Link to="/register">Sign up</Link>
+                    <p className="fs-6 mb-0">Log in as <button type="button" className="btn btn-link p-0 align-baseline" onClick={(e) => handleLogin(e, true)}>guest</button></p>
                 </div>
             </form>
         </div>

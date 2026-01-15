@@ -23,7 +23,7 @@ export default function MyEvents() {
                 setJoinedEvents(joined);
                 setCreatedEvents(created);
             } catch (error) {
-                console.error("Fel vid hämtning av evenemang", error);
+                console.error("Error while fetching events", error);
             } 
         }
 
@@ -55,8 +55,8 @@ export default function MyEvents() {
                     setJoinedEvents(joinedEvents.filter(event => event.eventId !== eventId));
                 })
             .catch(error => {
-                console.error("Fel vid lämning av evenemang", error);
-                alert("Ett fel uppstod när du försökte lämna evenemanget.");
+                console.error("Error while leaving event", error);
+                alert("Something went wrong while trying to leave the event.");
             });
         }
     };
@@ -77,7 +77,7 @@ export default function MyEvents() {
         <div className="container">
             <div className="text-center mb-2">
                 <Link to="/my-events/create-event" className="btn btn-orange px-3 py-2 create-btn">
-                    Skapa Evenemang
+                    Create event
                 </Link>
             </div>
             <ul className="nav nav-tabs justify-content-center shadow-sm rounded bg-light">
@@ -87,7 +87,7 @@ export default function MyEvents() {
                     onClick={() => setActiveView("joined")}
                     style={{ color: "black" }}
                 >
-                    Deltar
+                    Joined
                 </button>
                 </li>
                 <li className="nav-item">
@@ -96,7 +96,7 @@ export default function MyEvents() {
                     onClick={() => setActiveView("created")}
                     style={{ color: "black" }}
                 >
-                    Skapat
+                    Created
                 </button>
                 </li>
             </ul>
@@ -112,7 +112,7 @@ export default function MyEvents() {
                             )
                         ) : (
                             <div className="alert alert-info w-100 text-center">
-                                Du deltar inte i några evenemang än.
+                                You havent joined any events yet.
                             </div>
                         )
                     )}
@@ -125,7 +125,7 @@ export default function MyEvents() {
                             )
                         ) : (
                             <div className="alert alert-info w-100 text-center">
-                                Du har inte skapat några evenemang än.
+                                You havent created any events yet.
                             </div>
                         )
                     )}

@@ -49,16 +49,16 @@ export default function EventCard({
           <p className="card-text text-muted mb-1">{formatDate(event.startTime)} – {formatDate(event.endTime)}</p>
           {event.location && <p className="card-text mb-1">📍 {event.location}</p>}
           {(event.ageRangeMin || event.ageRangeMax) && (
-            <p className="card-text mb-1">🎂 Ålder: {event.ageRangeMin} - {event.ageRangeMax}</p>
+            <p className="card-text mb-1">🎂 Age: {event.ageRangeMin} - {event.ageRangeMax}</p>
           )}
           {event.interests && event.interests.length > 0 && (
-            <p className="card-text mb-2">🎯 Intressen: {event.interests.join(", ")}</p>
+            <p className="card-text mb-2">🎯 Interests: {event.interests.join(", ")}</p>
           )}
         </div>
 
         <div className="d-flex gap-2">
           <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100">
-            Mer Info
+            More info
           </Link>
 
           {variant === "default" && onToggleJoin && (
@@ -66,7 +66,7 @@ export default function EventCard({
               className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
               onClick={() => onToggleJoin(event.eventId)}
             >
-              {isJoined ? "Lämna" : "Gå med"}
+              {isJoined ? "Leave" : "Join"}
             </button>
           )}
 
@@ -75,7 +75,7 @@ export default function EventCard({
               className="btn mt-2 btn-outline-danger w-100"
               onClick={() => onLeave(event.eventId)}
             >
-              Lämna
+              Leave
             </button>
           )}
 
@@ -84,7 +84,7 @@ export default function EventCard({
               className="btn mt-2 btn-outline-warning w-100"
               onClick={() => edit(event.eventId)}
             >
-              Redigera
+              Edit
             </button>
           )}
         </div>

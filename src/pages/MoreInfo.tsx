@@ -67,7 +67,7 @@ export default function MoreInfo() {
       friendRequests.outgoingUsernames.includes(targetUsername) ||
       friendRequests.incomingUsernames.includes(targetUsername)
     ) {
-      alert("Du eller mottagaren har redan skickat en vänförfrågan.");
+      alert("You or the recipient has already sent a friend request.");
       return;
     }
 
@@ -91,7 +91,7 @@ export default function MoreInfo() {
         ...prev,
         outgoingUsernames: prev.outgoingUsernames.filter(u => u !== targetUsername),
       }));
-    } else alert("Misslyckades med att avbryta vänförfrågan.");
+    } else alert("Failed to cancel friend request.");
   };
 
   if (loading)
@@ -100,7 +100,7 @@ export default function MoreInfo() {
         className="text-center shadow rounded pt-4 pb-1 mx-auto"
         style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}
       >
-        <p>Laddar...</p>
+        <p>Loading...</p>
       </div>
     );
   if (!event)
@@ -109,14 +109,14 @@ export default function MoreInfo() {
         className="text-center shadow rounded pt-4 pb-1 mx-auto"
         style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}
       >
-        <p>Eventet hittades inte.</p>
+        <p>Event not found.</p>
       </div>
     );
 
   return (
     <div className="container" style={{ maxWidth: "800px" }}>
       <button onClick={() => navigate(-1)} className="btn-orange mb-3">
-        ← Tillbaka
+        ← Back
       </button>
 
       <div className="card shadow-lg border-0" style={{ borderRadius: "20px" }}>
@@ -146,53 +146,53 @@ export default function MoreInfo() {
           <h2 className="card-title mb-3">{event.title}</h2>
 
           <p className="text-muted">
-            <strong>🕒 Datum & tid: </strong>
+            <strong>🕒 Date & time: </strong>
             {new Date(event.startTime).toLocaleString()} –{" "}
             {new Date(event.endTime).toLocaleString()}
           </p>
 
           {event.location && (
             <p className="text-muted">
-              <strong>📍 Plats:</strong> {event.location}
+              <strong>📍 Location:</strong> {event.location}
             </p>
           )}
 
           {(event.ageRangeMin || event.ageRangeMax) && (
             <p className="text-muted">
-              <strong>🎂 Åldersintervall:</strong> {event.ageRangeMin}–{event.ageRangeMax} år
+              <strong>🎂 Age range:</strong> {event.ageRangeMin}–{event.ageRangeMax} years
             </p>
           )}
 
           {event.interests && event.interests.length > 0 && (
             <p className="text-muted">
-              <strong>🎯 Intressen:</strong> {event.interests.join(", ")}
+              <strong>🎯 Interests:</strong> {event.interests.join(", ")}
             </p>
           )}
 
           {event.eventParticipants && event.eventParticipants.length > 0 && (
             <div className="mb-3">
-              <strong>👥 Deltagare ({event.eventParticipants.length}):</strong>
+              <strong>👥 Participants ({event.eventParticipants.length}):</strong>
               <ul className="list-unstyled mt-1 mb-0">
                 {event.eventParticipants.map((p, i) => (
                   <li className="mt-1" key={i}>
                     • {p.userName} ({p.role})
                     {friends.find(f => f.username === p.userName) ? (
-                      <span className="mx-1 badge bg-success p-2" style={{ fontSize: "14px" }}>Vän</span>
+                      <span className="mx-1 badge bg-success p-2" style={{ fontSize: "14px" }}>Friend</span>
                     ) : p.userName === username ? null : friendRequests.outgoingUsernames?.includes(p.userName) ? (
                       <button
                         className="mx-1 btn btn-warning btn-sm"
                         onClick={() => regretFriendRequest(p.userName)}
                       >
-                        Avbryt förfrågan
+                        Cancel request
                       </button>
                     ) : friendRequests.incomingUsernames?.includes(p.userName) ? (
-                      <span className="mx-1 badge bg-info p-2" style={{ fontSize: "14px" }}>Vänförfrågan mottagen</span>
+                      <span className="mx-1 badge bg-info p-2" style={{ fontSize: "14px" }}>Friend request received</span>
                     ) : (
                       <button
                         className="mx-1 btn btn-secondary btn-sm"
                         onClick={() => sendFriendRequest(p.userName)}
                       >
-                        Lägg till vän
+                        Add friend
                       </button>
                     )}
                   </li>
@@ -203,13 +203,13 @@ export default function MoreInfo() {
 
           {event.description && (
             <div className="mt-4">
-              <h5>📘 Beskrivning</h5>
+              <h5>📘 Description</h5>
               <p>{event.description}</p>
             </div>
           )}
 
           <div className="mt-5">
-            <h5 className="mb-3">💬 Meddelanden</h5>
+            <h5 className="mb-3">💬 Messages</h5>
             {event && event.eventParticipants?.some(p => p.userName === username) ? (
               <EventChat
                 conversationId={event.conversationId}
@@ -218,7 +218,7 @@ export default function MoreInfo() {
               />
             ) : (
               <div className="alert alert-info" role="alert">
-                <p className="mb-0">Gå med i eventet för att kunna skicka meddelanden.</p>
+                <p className="mb-0">Join the event to send messages.</p>
               </div>
             )}
           </div>

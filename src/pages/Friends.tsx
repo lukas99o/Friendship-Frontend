@@ -38,19 +38,19 @@ export default function Friends() {
 
   const sendFriendRequest = async (username: string) => {
     if (friendRequests.incomingUsernames.includes(username) || friendRequests.outgoingUsernames.includes(username)) {
-      alert("Du eller mottagaren har redan skickat en vänförfrågan")
+      alert("You or the recipient has already sent a friend request")
       return
     }
 
     const success = await SendFriendRequest(username)
     if (success) {
-      setFriendRequestMessage("Vänförfrågning skickad!")
+      setFriendRequestMessage("Friend request sent!")
       setLoadingRequests(true)
       const requestsData = await GetFriendRequests()
       setFriendRequests(requestsData)
       setLoadingRequests(false)
     } else {
-      setFriendRequestMessage("Misslyckades, fel användarnamn.")
+      setFriendRequestMessage("Failed: invalid username.")
     }
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -67,7 +67,7 @@ export default function Friends() {
       setFriends(friendsData)
       setFilteredFriends(friendsData)
       setLoadingFriends(false)
-    } else alert("Misslyckades med att acceptera vänförfrågning.")
+    } else alert("Failed to accept friend request.")
   }
 
   const declineFriendRequest = async (username: string) => {
@@ -75,7 +75,7 @@ export default function Friends() {
     if (success) {
       friendRequests.incomingUsernames = friendRequests.incomingUsernames.filter(u => u !== username)
       setFriendRequests({ ...friendRequests })
-    } else alert("Misslyckades med att avslå vänförfrågan.")
+    } else alert("Failed to decline friend request.")
   }
 
   const regretFriendRequest = async (username: string) => {
@@ -83,11 +83,11 @@ export default function Friends() {
     if (success) {
       friendRequests.outgoingUsernames = friendRequests.outgoingUsernames.filter(u => u !== username)
       setFriendRequests({ ...friendRequests })
-    } else alert("Misslyckades med att avbryta vänförfrågan.")
+    } else alert("Failed to cancel friend request.")
   }
 
   const removeFriend = async (friend: FriendDto) => {
-    const confirmed = window.confirm(`Vill du ta bort ${friend.username} som vän?`)
+    const confirmed = window.confirm(`Do you want to remove ${friend.username} as a friend?`)
     if (!confirmed) return
 
     const success = await RemoveFriend(friend.username)
@@ -106,7 +106,7 @@ export default function Friends() {
         setConversation(null)
       }
     } else {
-      alert("Misslyckades med att ta bort vän.")
+      alert("Failed to remove friend.")
     }
   }
 
@@ -164,7 +164,7 @@ export default function Friends() {
               <div className="flex-grow-1 d-flex flex-column">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h3 className="header mb-0">{selectedChatUser}</h3>
-                  <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedChatUser(null)}>← Tillbaka</button>
+                  <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedChatUser(null)}>← Back</button>
                 </div>
 
                 {chatStarted && (
@@ -179,8 +179,8 @@ export default function Friends() {
             ) : selectedFriendId && width < 968 ? (
               <div className="flex-grow-1 d-flex flex-column overflow-auto">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h3 className="header mb-0">Profil</h3>
-                  <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Tillbaka</button>
+                  <h3 className="header mb-0">Profile</h3>
+                  <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Back</button>
                 </div>
                 <FriendProfile userId={selectedFriendId} />
               </div>
@@ -188,27 +188,27 @@ export default function Friends() {
                 <> 
                     {width < 968 ? (
                         <div className="d-flex justify-content-around align-items-center">
-                            <h3 className="mb-3 header text-center mt-1 mb-3">Mina Vänner</h3>
-                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(false)}>Hitta Vänner</button>
+                            <h3 className="mb-3 header text-center mt-1 mb-3">My Friends</h3>
+                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(false)}>Find Friends</button>
                         </div>
                     ) : (
                         <div>
-                            <h2 className="mb-3 header text-center mt-1 mb-3">Mina Vänner</h2>
+                            <h2 className="mb-3 header text-center mt-1 mb-3">My Friends</h2>
                         </div>
                     )}
                     
                     {loadingFriends ? (
-                    <p>Laddar vänner...</p>
+                        <p>Loading friends...</p>
                     ) : friends.length > 0 ? (
                     <>
                     <div>
                         <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
-                            <label className="form-label fw-bold">Sök efter vän:</label>
+                            <label className="form-label fw-bold">Search for a friend:</label>
                             <div className="input-group gap-2">
                                 <input
                                 className="form-control"
                                 type="text"
-                                placeholder="Användarnamn..."
+                              placeholder="Username..."
                                 value={friendSearch}
                                 onChange={(e) => setFriendSearch(e.target.value)}
                                 />
@@ -221,11 +221,11 @@ export default function Friends() {
                             <div className="d-flex gap-3 align-items-center">
                             <div className="bg-secondary rounded-circle d-flex justify-content-center align-items-center" 
                               style={{ width: "100px", height: "100px" }}>{friend.profilePicturePath ? <img src={`${API_BASE_URL}${friend.profilePicturePath}`} 
-                              alt="Profilbild" 
+                              alt="Profile picture" 
                               className="rounded-circle" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span className="text-white" style={{ fontSize: 48 }}>👤</span>}</div>
                             <div>
                                 <h5 className={`mb-1 ${width < 768 ? "fs-6" : ""}`}>{friend.username}</h5>
-                                <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} år</p>
+                                <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} years</p>
                             </div>
                             </div>
                             <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start flex-md-column">
@@ -236,7 +236,7 @@ export default function Friends() {
                                         setChatStarted(false)
                                     }}
                                 >
-                                  Profil
+                                  Profile
                                 </button>
                                 <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2"
                                     onClick={async () => {
@@ -251,7 +251,7 @@ export default function Friends() {
                                         setConversation(conversation)
                                         setChatStarted(true)
                                     } else {
-                                        alert("Kunde inte starta chatt med den här användaren.")
+                                        alert("Could not start a chat with this user.")
                                         setChatStarted(false)
                                     }
                                     }}
@@ -261,7 +261,7 @@ export default function Friends() {
                               <button className="btn btn-outline-danger px-2 px-lg-4 py-1 py-lg-2"
                                 onClick={() => removeFriend(friend)}
                               >
-                                Ta bort vän
+                                Remove friend
                               </button>
                             </div>
                         </div>
@@ -270,8 +270,8 @@ export default function Friends() {
                     </>
                     ) : (
                     <div className="p-3 border rounded">
-                        <p className="mb-2 text-center"><strong>Inga vänner att visa</strong></p>
-                        <p className="text-muted">Lägg till vänner genom att skicka vänförfrågningar eller delta i evenemang.</p>
+                        <p className="mb-2 text-center"><strong>No friends to show</strong></p>
+                        <p className="text-muted">Add friends by sending friend requests or joining events.</p>
                     </div>
                     )}
                  </>
@@ -285,7 +285,7 @@ export default function Friends() {
               <div className="flex-grow-1 d-flex flex-column">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h3 className="header mb-0">{selectedChatUser}</h3>
-                  <button className="btn-orange" onClick={() => setSelectedChatUser(null)}>← Tillbaka</button>
+                  <button className="btn-orange" onClick={() => setSelectedChatUser(null)}>← Back</button>
                 </div>
 
                 {chatStarted && (
@@ -300,8 +300,8 @@ export default function Friends() {
             ) :  selectedFriendId ? (
                   <div className="flex-grow-1 d-flex flex-column">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h3 className="header mb-0">Profil</h3>
-                      <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Tillbaka</button>
+                      <h3 className="header mb-0">Profile</h3>
+                      <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Back</button>
                     </div>
                     <div className="mt-5">
                       <FriendProfile userId={selectedFriendId} />
@@ -311,27 +311,27 @@ export default function Friends() {
               <>
                 {width < 968 ? (
                         <div className="d-flex justify-content-around align-items-center">
-                            <h3 className="mb-3 header text-center mt-1 mb-3">Vänförfrågningar</h3>
-                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(true)}>Vänner</button>
+                      <h3 className="mb-3 header text-center mt-1 mb-3">Friend requests</h3>
+                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(true)}>Friends</button>
                         </div>
                     ) : (
                         <div>
-                            <h2 className="mb-3 header text-center mt-1 mb-3">Vänförfrågningar</h2>
+                            <h2 className="mb-3 header text-center mt-1 mb-3">Friend requests</h2>
                         </div>
                 )}
 
                 <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
-                  <label className="form-label fw-bold">Skicka vänförfrågan:</label>
+                  <label className="form-label fw-bold">Send friend request:</label>
                   <div className="input-group gap-2">
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Användarnamn..."
+                      placeholder="Username..."
                       value={friendRequestUsername}
                       onChange={(e) => setFriendRequestUsername(e.target.value)}
                       onKeyDown={handleFriendRequestKeyDown}
                     />
-                    <button className="btn-orange px-2 py-1" onClick={() => sendFriendRequest(friendRequestUsername)}>Skicka</button>
+                    <button className="btn-orange px-2 py-1" onClick={() => sendFriendRequest(friendRequestUsername)}>Send</button>
                   </div>
                   {friendRequestMessage && (
                     <div className="alert alert-info mt-2 d-flex justify-content-between align-items-center">
@@ -342,18 +342,18 @@ export default function Friends() {
 
                 <div className="flex-grow-1 overflow-auto border rounded p-3 shadow-sm">
                   {loadingRequests ? (
-                    <p>Laddar vänförfrågningar...</p>
+                    <p>Loading friend requests...</p>
                   ) : (friendRequests.incomingUsernames?.length || friendRequests.outgoingUsernames?.length) ? (
                     <>
                       {friendRequests.incomingUsernames?.length > 0 && (
                         <div className="mb-4">
-                          <h6 className="text-success">Inkommande förfrågningar:</h6>
+                          <h6 className="text-success">Incoming requests:</h6>
                           {friendRequests.incomingUsernames.map(username => (
                             <div key={username} className="border rounded p-2 mb-2 bg-white d-flex justify-content-between align-items-center shadow-sm">
                               <span>{username}</span>
                               <div className="d-flex gap-1">
-                                <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 fs-6" onClick={() => acceptFriendRequest(username)} style={{ width: "fit-content"}}>Acceptera</button>
-                                <button className="btn btn-outline-secondary btn-sm" onClick={() => declineFriendRequest(username)}>Avböj</button>
+                                <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 fs-6" onClick={() => acceptFriendRequest(username)} style={{ width: "fit-content"}}>Accept</button>
+                                <button className="btn btn-outline-secondary btn-sm" onClick={() => declineFriendRequest(username)}>Decline</button>
                               </div>
                             </div>
                           ))}
@@ -362,11 +362,11 @@ export default function Friends() {
 
                       {friendRequests.outgoingUsernames?.length > 0 && (
                         <div>
-                          <h6 className="text-warning">Skickade förfrågningar:</h6>
+                          <h6 className="text-warning">Sent requests:</h6>
                           {friendRequests.outgoingUsernames.map(username => (
                             <div key={username} className="border rounded p-2 mb-2 bg-white d-flex justify-content-between align-items-center shadow-sm">
                               <span>{username}</span>
-                              <button className="btn btn-outline-danger btn-sm" onClick={() => regretFriendRequest(username)}>Avbryt</button>
+                              <button className="btn btn-outline-danger btn-sm" onClick={() => regretFriendRequest(username)}>Cancel</button>
                             </div>
                           ))}
                         </div>
@@ -374,7 +374,7 @@ export default function Friends() {
                     </>
                   ) : (
                     <div className="text-center p-4 border rounded">
-                      <p className="text-muted"><strong>Inga vänförfrågningar att visa</strong></p>
+                      <p className="text-muted"><strong>No friend requests to show</strong></p>
                     </div>
                   )}
                 </div>

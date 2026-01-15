@@ -39,15 +39,15 @@ export default function VerificationPage() {
                         2a.5.5 0 0 0 .708 0l5-5a.5.5 0 0 0 0-.708z" />
                     </svg>
                 </div>
-                <h2 className="mb-3">Verifiera din e-post</h2>
+                <h2 className="mb-3">Verify your email</h2>
                 <p className="mb-3 text-muted">
-                    Tack för att du registrerade dig! Vi har skickat ett bekräftelsemail till din adress.
+                    Thanks for signing up! Weve sent a confirmation email to your address.
                 </p>
                 <p className="text-muted">
-                    Om du inte ser mailet, kontrollera din skräppost eller klicka nedan för att få det igen.
+                    If you dont see the email, check your spam folder or click below to resend it.
                 </p>
                 <button className="btn-orange mt-3" onClick={handleResendEmail}>
-                    Skicka igen
+                    Resend email
                 </button>
             </div>
         </div>

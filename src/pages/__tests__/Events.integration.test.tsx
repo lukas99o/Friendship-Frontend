@@ -76,7 +76,7 @@ describe('Events integration', () => {
     mockGetFriendEvents.mockResolvedValue([])
   })
 
-  it('renderar events och filtrerar bort redan joined events', async () => {
+  it('renders events and filters out already joined events', async () => {
     mockGetStatus.mockResolvedValue([1])
 
     render(
@@ -86,7 +86,7 @@ describe('Events integration', () => {
     )
 
     await waitFor(() => {
-      expect(screen.queryByText('Laddar...')).not.toBeInTheDocument()
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
     })
 
     expect(screen.getByText('Event B')).toBeInTheDocument()
@@ -95,7 +95,7 @@ describe('Events integration', () => {
     expect(mockGetEvents).toHaveBeenCalledWith({ ageMin: null, ageMax: null, interests: null, page: 1, pageSize: 10, sort: 'alphabetical' })
   })
 
-  it('kan gå med i ett event och knappen uppdateras', async () => {
+  it('can join an event and updates the button', async () => {
     mockGetStatus.mockResolvedValue([])
     mockGetEvents.mockResolvedValue([baseEvents[0]])
 
@@ -105,15 +105,15 @@ describe('Events integration', () => {
       </MemoryRouter>
     )
 
-    const joinButton = await screen.findByRole('button', { name: 'Gå med' })
+    const joinButton = await screen.findByRole('button', { name: 'Join' })
     const user = userEvent.setup()
     await user.click(joinButton)
 
     expect(mockJoinEvent).toHaveBeenCalledWith(1)
-    expect(await screen.findByRole('button', { name: 'Lämna' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Leave' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Lämna' }))
+    await user.click(screen.getByRole('button', { name: 'Leave' }))
     expect(mockLeaveEvent).toHaveBeenCalledWith(1)
-    expect(await screen.findByRole('button', { name: 'Gå med' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Join' })).toBeInTheDocument()
   })
 })

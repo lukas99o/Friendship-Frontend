@@ -28,12 +28,12 @@ export default function VerifyEmail() {
     return (
         <div className="d-flex justify-content-center container" style={{ height: "fit-content" }}>
             <div className="text-center p-4 rounded shadow bg-white">
-                {status === "loading" && <p>Verifierar e-postadress...</p>}
-                {status === "success" && <h1 className="header">Välkommen till Vänskap!</h1>}
-                {status === "success" && <p className="text-black">Din e-postadress har bekräftats! Du kan nu logga in.</p>}
-                {status === "success" && <a href="/login" className="btn btn-orange mt-3 text-white">Logga in</a>}
-                {status === "error" && <h1 className="text-danger">Oj något gick fel!</h1>}
-                {status === "error" && <p className="text-danger">Verifikationen misslyckades. Länken kan vara ogiltig eller ha gått ut.</p>}
+                {status === "loading" && <p>Verifying email address...</p>}
+                {status === "success" && <h1 className="header">Welcome to Friendship!</h1>}
+                {status === "success" && <p className="text-black">Your email address has been confirmed. You can now log in.</p>}
+                {status === "success" && <a href="/login" className="btn btn-orange mt-3 text-white">Log in</a>}
+                {status === "error" && <h1 className="text-danger">Oops, something went wrong!</h1>}
+                {status === "error" && <p className="text-danger">Verification failed. The link may be invalid or expired.</p>}
             </div>
         </div>
     );

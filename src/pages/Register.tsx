@@ -42,19 +42,19 @@ export default function Register() {
         const errors: string[] = [];
 
         if (!validateEmail(email)) {
-            errors.push("Ogiltig e-postadress");
+            errors.push("Invalid email address");
         }
 
         if (!validatePassword(password)) {
-            errors.push("Lösenordet måste vara minst 8 tecken långt och innehålla en stor bokstav, en liten bokstav, en siffra och ett specialtecken");
+            errors.push("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character");
         }
 
         if (!validateDateOfBirth(dateOfBirth)) {
-            errors.push("Ogiltigt födelsedatum");
+            errors.push("Invalid date of birth");
         }
 
         if (password !== confirmPassword) {
-            setError("Lösenorden matchar inte");
+            setError("Passwords do not match");
             return;
         }
 
@@ -83,30 +83,30 @@ export default function Register() {
                 const errorText = await res.text();
                 
                 if (errorText === "E-postadressen används redan.") {
-                    setError("E-postadressen används redan.");
+                    setError("That email address is already in use.");
                 } else if (errorText === "Användarnamnet är redan taget.") {
-                    setError("Användarnamnet är redan taget.");
+                    setError("That username is already taken.");
                 } else {
-                    setError("Något gick fel. Försök igen.");
+                    setError("Something went wrong. Please try again.");
                 }
 
                 return;
             }
 
-            console.log("Registrering lyckades");
+            console.log("Registration successful");
             navigate("/verificationPage", { state: { email: email}});
         } catch {
-            setError("Något gick fel.")
+            setError("Something went wrong.")
         }
     }
 
     return (
         <div className="d-flex justify-content-center container pb-5" style={{ height: "fit-content" }}>
             <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "400px" }}>
-                <h1 className="mb-4 text-center header">Registrera dig</h1>
-                <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
+                <h1 className="mb-4 text-center header">Sign up</h1>
+                <p className="fs-6 border p-2 text-center">It can take up to 1 minute for Azure to warm up the Friendship API when the app has been in standby. Grab a coffee and try again shortly.</p>
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="firstName">Förnamn</label>
+                    <label className="form-label" htmlFor="firstName">First name</label>
                     <input
                         id="firstName"
                         type="text"
@@ -119,7 +119,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="lastName">Efternamn</label>
+                    <label className="form-label" htmlFor="lastName">Last name</label>
                     <input
                         id="lastName"
                         type="text"
@@ -132,7 +132,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="userName">Användarnamn</label>
+                    <label className="form-label" htmlFor="userName">Username</label>
                     <input
                         id="userName"
                         type="text"
@@ -145,7 +145,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="dateOfBirth">Födelsedatum</label>
+                    <label className="form-label" htmlFor="dateOfBirth">Date of birth</label>
                     <input
                         id="dateOfBirth"
                         type="date"
@@ -170,7 +170,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="registerPassword">Lösenord</label>
+                    <label className="form-label" htmlFor="registerPassword">Password</label>
                     <input
                         id="registerPassword"
                         type="password"
@@ -182,7 +182,7 @@ export default function Register() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="confirmPassword">Bekräfta lösenord</label>
+                    <label className="form-label" htmlFor="confirmPassword">Confirm password</label>
                     <input
                         id="confirmPassword"
                         type="password"
@@ -195,11 +195,11 @@ export default function Register() {
 
                 {error && <div className="alert alert-danger py-1" role="alert">{error}</div>}
 
-                <button type="submit" className="btn-orange w-100">Registrera</button>
+                <button type="submit" className="btn-orange w-100">Sign up</button>
 
                 <div className="text-center mt-3">
-                    <span>Har du redan ett konto? </span>
-                    <Link to="/login">Logga in</Link>
+                    <span>Already have an account? </span>
+                    <Link to="/login">Log in</Link>
                 </div>
             </form>
         </div>

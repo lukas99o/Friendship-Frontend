@@ -77,8 +77,8 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
         ) : (
           <div className="text-center text-muted h-100 d-flex align-items-center justify-content-center flex-column">
             <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
-            <p className="mb-0">Inga meddelanden än...</p>
-            <small>Var första att starta konversationen!</small>
+            <p className="mb-0">No messages yet...</p>
+            <small>Be the first to start the conversation!</small>
           </div>
         )}
       </div>
@@ -90,14 +90,14 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
         <input
           type="text"
           className="form-control border-warning"
-          placeholder="Skriv ett meddelande..."
+          placeholder="Write a message..."
           style={{ borderLeft: "none" }}
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
         <button className="btn btn-warning px-4 fw-bold" onClick={sendMessage}>
-          <i className="bi bi-send-fill me-1"></i> Skicka
+          <i className="bi bi-send-fill me-1"></i> Send
         </button>
       </div>
     </div>

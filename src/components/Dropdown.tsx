@@ -36,8 +36,8 @@ export default function Dropdown({ selectedInterests, onChange }: DropdownProps)
         style={{ zIndex: 10000 }}
       >
         {selectedInterests.length > 0
-          ? `Valda (${selectedInterests.length})`
-          : "Välj intressen"}
+          ? `Selected (${selectedInterests.length})`
+          : "Select interests"}
       </button>
       <ul
         className={`dropdown-menu${dropdownOpen ? " show" : ""}`}

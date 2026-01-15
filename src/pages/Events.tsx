@@ -45,7 +45,7 @@ export default function Events() {
                 await loadPublicEvents({ page: 1, reset: true, joinedIds: joined });
                 setLoading(false);
             } catch (error) {
-                console.error("Något gick fel:", error);
+                console.error("Something went wrong:", error);
             }
         };
 
@@ -125,16 +125,16 @@ export default function Events() {
             if (joinedEvents.includes(eventId)) {
                 await LeaveEvent(eventId);
                 setJoinedEvents(joinedEvents.filter((id) => id !== eventId));
-                console.log("Lämnat evenemang med ID:", eventId);
+                console.log("Left event with ID:", eventId);
             } else {
                 await JoinEvent(eventId);
                 setJoinedEvents([...joinedEvents, eventId]);
-                console.log("Gått med i evenemang med ID:", eventId);
+                console.log("Joined event with ID:", eventId);
             }
         }
         catch (error) {
-            console.error("Fel vid hantering av evenemang:", error);
-            alert("Något gick fel, försök igen senare.");
+            console.error("Error while handling event:", error);
+            alert("Something went wrong, please try again later.");
         }
     }
 
@@ -163,7 +163,7 @@ export default function Events() {
                 <div className="d-flex flex-column gap-3 mt-2">
                     <div className="d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-end">
                         <div className="w-100 w-md-50">
-                            <label className="form-label fw-semibold mb-1">Intressen</label>
+                            <label className="form-label fw-semibold mb-1">Interests</label>
                             <Dropdown 
                                 selectedInterests={selectedInterests}
                                 onChange={setSelectedInterests}
@@ -172,10 +172,10 @@ export default function Events() {
 
                         <div className="d-flex w-100 w-md-50 gap-2 align-items-end flex-column flex-sm-row">
                             <div className="flex-grow-1 w-100">
-                                <label className="form-label fw-semibold mb-1">Min ålder</label>
+                                <label className="form-label fw-semibold mb-1">Min age</label>
                                 <input
                                     type="number"
-                                    placeholder="Min ålder"
+                                    placeholder="Min age"
                                     value={ageMin}
                                     className="form-control filter-input"
                                     onChange={(e) => setAgeMin(e.target.value === "" ? "" : Number(e.target.value))}
@@ -184,10 +184,10 @@ export default function Events() {
                             </div>
 
                             <div className="flex-grow-1 w-100">
-                                <label className="form-label fw-semibold mb-1">Max ålder</label>
+                                <label className="form-label fw-semibold mb-1">Max age</label>
                                 <input
                                     type="number"
-                                    placeholder="Max ålder"
+                                    placeholder="Max age"
                                     value={ageMax}
                                     className="form-control filter-input"
                                     onChange={(e) => setAgeMax(e.target.value === "" ? "" : Number(e.target.value))}
@@ -199,7 +199,7 @@ export default function Events() {
 
                     {selectedInterests.length > 0 && (
                         <div>
-                            <strong>Valda intressen:</strong>
+                            <strong>Selected interests:</strong>
                             <div className="mt-2 d-flex flex-wrap gap-2">
                                 {selectedInterests.map((interest) => (
                                     <span key={interest} className="badge filter-chip text-dark">
@@ -212,7 +212,7 @@ export default function Events() {
 
                     <div className="d-flex flex-wrap gap-3 justify-content-between align-items-center filter-actions">
                         <div className="d-flex align-items-center gap-2">
-                            <label htmlFor="sortDropdown" className="mb-0 fw-semibold">Sortera:</label>
+                            <label htmlFor="sortDropdown" className="mb-0 fw-semibold">Sort:</label>
                             <select
                                 id="sortDropdown"
                                 className="form-select filter-input"
@@ -220,8 +220,8 @@ export default function Events() {
                                 onChange={(e) => setSortOrder(e.target.value as "alphabetical" | "date")}
                                 style={{ cursor: "pointer" }}
                             >
-                                <option value="alphabetical">Alfabetiskt</option>
-                                <option value="date">Datum</option>
+                                <option value="alphabetical">Alphabetical</option>
+                                <option value="date">Date</option>
                             </select>
                         </div>
 
@@ -234,23 +234,23 @@ export default function Events() {
                                 style={{ border: "1px solid #888"}}
                             />
                             <label className="form-check-label ms-2" htmlFor="friendsEventsOnly">
-                                Visa endast vänners evenemang
+                                Show only friends events
                             </label>
                         </div>
 
                         {width > 800 && (
                             <button className="btn-orange" onClick={handleSearch}>
-                                Sök
+                                Search
                             </button>
                         ) || width < 800 && (
                             <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 w-100" onClick={handleSearch}>
-                                Sök
+                                Search
                             </button>
                         )}
                     </div>
 
-                    {loading && <p className="mb-0">Laddar...</p>}
-                    {!loading && events.length === 0 && <p className="mb-0">Inga evenemang hittades.</p>}
+                    {loading && <p className="mb-0">Loading...</p>}
+                    {!loading && events.length === 0 && <p className="mb-0">No events found.</p>}
                 </div>
             </div>
             
@@ -268,7 +268,7 @@ export default function Events() {
             {hasMore && (
                 <div className="d-flex justify-content-center pb-5">
                     <button className="btn-orange" onClick={loadMore} disabled={loadingMore}>
-                        {loadingMore ? "Laddar..." : "Ladda fler evenemang"}
+                        {loadingMore ? "Loading..." : "Load more events"}
                     </button>
                 </div>
             )}
