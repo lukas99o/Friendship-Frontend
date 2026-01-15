@@ -172,26 +172,30 @@ export default function Events() {
 
                         <div className="d-flex w-100 w-md-50 gap-2 align-items-end flex-column flex-sm-row">
                             <div className="flex-grow-1 w-100">
-                                <label className="form-label fw-semibold mb-1">Min age</label>
+                                <label htmlFor="minAgeFilter" className="form-label fw-semibold mb-1">Min age</label>
                                 <input
+                                    id="minAgeFilter"
                                     type="number"
                                     placeholder="Min age"
                                     value={ageMin}
                                     className="form-control filter-input"
                                     onChange={(e) => setAgeMin(e.target.value === "" ? "" : Number(e.target.value))}
                                     min={0}
+                                    aria-label="Minimum age filter"
                                 />
                             </div>
 
                             <div className="flex-grow-1 w-100">
-                                <label className="form-label fw-semibold mb-1">Max age</label>
+                                <label htmlFor="maxAgeFilter" className="form-label fw-semibold mb-1">Max age</label>
                                 <input
+                                    id="maxAgeFilter"
                                     type="number"
                                     placeholder="Max age"
                                     value={ageMax}
                                     className="form-control filter-input"
                                     onChange={(e) => setAgeMax(e.target.value === "" ? "" : Number(e.target.value))}
                                     min={0}
+                                    aria-label="Maximum age filter"
                                 />
                             </div>
                         </div>

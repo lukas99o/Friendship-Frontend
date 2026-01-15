@@ -20,6 +20,8 @@ export default function EventCard({
   edit,
   variant = "default" 
 }: EventCardProps) {
+  console.log("event img:", event.img);
+  console.log(`${API_BASE_URL}${event.img}`);
   return (
     <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "525px" }}>
       {event.img && (
@@ -28,6 +30,7 @@ export default function EventCard({
             src={`${API_BASE_URL}${event.img}`}
             alt={event.title}
             className="w-100"
+            loading="lazy"
             style={{
               objectFit: "cover",
               height: "100%",
@@ -57,7 +60,7 @@ export default function EventCard({
         </div>
 
         <div className="d-flex gap-2">
-          <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100">
+          <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100" aria-label={`More info about ${event.title}`}>
             More info
           </Link>
 
@@ -65,6 +68,7 @@ export default function EventCard({
             <button
               className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
               onClick={() => onToggleJoin(event.eventId)}
+              aria-label={isJoined ? `Leave` : `Join`}
             >
               {isJoined ? "Leave" : "Join"}
             </button>
@@ -74,6 +78,7 @@ export default function EventCard({
             <button
               className="btn mt-2 btn-outline-danger w-100"
               onClick={() => onLeave(event.eventId)}
+              aria-label={`Leave ${event.title}`}
             >
               Leave
             </button>
@@ -83,6 +88,7 @@ export default function EventCard({
             <button
               className="btn mt-2 btn-outline-warning w-100"
               onClick={() => edit(event.eventId)}
+              aria-label={`Edit ${event.title}`}
             >
               Edit
             </button>

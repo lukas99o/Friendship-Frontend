@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
 const imageList = [
-    "/images/slideshow1.avif",
-    "/images/slideshow2.avif",
-    "/images/slideshow3.avif",
-    "/images/slideshow4.avif"
+    "/images/slideshow1.jpg",
+    "/images/slideshow2.jpg",
+    "/images/slideshow3.jpg"
 ]
 
 export default function Slideshow() {

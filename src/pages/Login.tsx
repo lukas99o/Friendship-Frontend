@@ -7,6 +7,8 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [needsVerification, setNeedsVerification] = useState(false);
+    const [resendMessage, setResendMessage] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth(); 
     const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +40,12 @@ export default function Login() {
 
             if (!res.ok) {
                 const errorText = await res.text();
-                if (errorText === "Du måste bekräfta din e-post först.") {
+                if (errorText === "You must confirm your email first.") {
                     setError("You need to confirm your email first.");
+                    setNeedsVerification(true);
                 } else {
                     setError("Incorrect email or password.");
+                    setNeedsVerification(false);
                 }
 
                 return;
@@ -70,6 +74,7 @@ export default function Login() {
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
+                        autoComplete="email"
                     />
                 </div>
 
@@ -84,6 +89,7 @@ export default function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             required
+                            autoComplete="current-password"
                         />
                         <button
                             type="button"
@@ -99,6 +105,34 @@ export default function Login() {
 
 
                 {error && <div className="alert alert-danger py-1" role="alert">{error}</div>}
+
+                {needsVerification && (
+                    <div className="mb-3">
+                        <button
+                            type="button"
+                            className="btn btn-warning w-100"
+                            onClick={async () => {
+                                if (!email) {
+                                    setResendMessage("Please enter your email address first.");
+                                    return;
+                                }
+                                try {
+                                    const res = await fetch(`${API_BASE_URL}/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" }
+                                    });
+                                    const message = await res.text();
+                                    setResendMessage(message);
+                                } catch {
+                                    setResendMessage("Failed to resend email. Please try again.");
+                                }
+                            }}
+                        >
+                            Resend verification email
+                        </button>
+                        {resendMessage && <p className="text-muted mt-2 mb-0 small">{resendMessage}</p>}
+                    </div>
+                )}
 
                     <button type="submit" className="btn-orange w-100" >Log in</button>
 

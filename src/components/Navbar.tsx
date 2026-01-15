@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 export default function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
-    const logo = "/images/logo.avif";
+    const logo = "/images/friendship.avif";
     const navbarRef = useRef<HTMLElement>(null);
     
     // Shared style for all nav links for better readability on dark background
@@ -13,7 +13,7 @@ export default function Navbar() {
         color: "#ffffff",
         opacity: 0.9,
         textDecoration: "none",
-        transition: "opacity .2s ease, color .2s ease",
+        transition: "opacity .2s ease, color .2s ease, transform .2s ease",
     };
     const activeLinkStyle: React.CSSProperties = {
         color: "#ffffff",
@@ -48,10 +48,10 @@ export default function Navbar() {
     return (
         <nav ref={navbarRef} className="navbar navbar-expand-lg navbar-dark fixed-top shadow">
             <div className="container">
-                <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}
+                <NavLink className="navbar-brand fs-3 fw-bold mb-1" to="/events" onClick={closeNavbar}
                     style={{ color: "#ffffff" }}
                 >
-                <img src={logo} alt="Friendship" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
+                <p className="text-white fs-3 m-0">Friendship <img src={logo} alt="Friendship" style={{ maxHeight: "30px", mixBlendMode: "multiply" }} /></p>
                 </NavLink>
                 <button
                     className="navbar-toggler"
@@ -79,8 +79,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         Events
                                     </NavLink>
@@ -96,8 +102,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         My Events
                                     </NavLink>
@@ -112,8 +124,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         Friends
                                     </NavLink>
@@ -132,8 +150,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         Home
                                     </NavLink>
@@ -148,8 +172,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         Log in
                                     </NavLink>
@@ -164,8 +194,14 @@ export default function Navbar() {
                                         style={({ isActive }) => ({
                                             ...(isActive ? activeLinkStyle : baseLinkStyle),
                                         })}
-                                        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.opacity = "1";
+                                            e.currentTarget.style.transform = "translateY(-1px)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.opacity = "0.9";
+                                            e.currentTarget.style.transform = "translateY(0)";
+                                        }}
                                     >
                                         Sign up
                                     </NavLink>

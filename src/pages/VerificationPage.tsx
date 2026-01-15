@@ -41,10 +41,10 @@ export default function VerificationPage() {
                 </div>
                 <h2 className="mb-3">Verify your email</h2>
                 <p className="mb-3 text-muted">
-                    Thanks for signing up! Weve sent a confirmation email to your address.
+                    Thanks for signing up! We've sent a confirmation email to your address.
                 </p>
                 <p className="text-muted">
-                    If you dont see the email, check your spam folder or click below to resend it.
+                    If you don't see the email, check your spam folder or click below to resend it.
                 </p>
                 <button className="btn-orange mt-3" onClick={handleResendEmail}>
                     Resend email

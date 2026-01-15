@@ -115,6 +115,7 @@ export default function Register() {
                         onChange={(e) => setFirstName(e.target.value)}
                         required
                         maxLength={50}
+                        autoComplete="given-name"
                     />
                 </div>
 
@@ -128,6 +129,7 @@ export default function Register() {
                         onChange={(e) => setLastName(e.target.value)}
                         required
                         maxLength={50}
+                        autoComplete="family-name"
                     />
                 </div>
 
@@ -141,6 +143,7 @@ export default function Register() {
                         onChange={(e) => setUserName(e.target.value)}
                         required
                         maxLength={12}
+                        autoComplete="username"
                     />
                 </div>
 
@@ -154,6 +157,7 @@ export default function Register() {
                         onChange={(e) => setDateOfBirth(e.target.value)}
                         max={new Date().toISOString().split("T")[0]}
                         required
+                        autoComplete="bday"
                     />
                 </div>
 
@@ -166,6 +170,7 @@ export default function Register() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        autoComplete="email"
                     />
                 </div>
 
@@ -178,6 +183,7 @@ export default function Register() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        autoComplete="new-password"
                     />
                 </div>
 
@@ -190,6 +196,7 @@ export default function Register() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
+                        autoComplete="new-password"
                     />
                 </div>
 

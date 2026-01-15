@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 
 export default function StartPage() {
@@ -36,6 +37,7 @@ export default function StartPage() {
                         loop
                         playsInline
                         preload="none"
+                        aria-label="Decorative background video showing social activities"
                         style={{
                             width: "100%",
                             height: "100%",
@@ -61,12 +63,12 @@ export default function StartPage() {
                         <p>We offer a platform to connect and build meaningful relationships.</p>
                         <p>Whether you're looking for friends, activities, or just want to have fun, we have something for you.</p>
                         <p>Sign up today and start your journey toward new friendships!</p>
-                        <a className="btn btn-orange mt-2 mx-auto"
-                           href="/register"
+                        <Link className="btn btn-orange mt-2 mx-auto"
+                           to="/register"
                            style={{ color: "white", width: "fit-content", padding: "10px 20px" }}
                         >
                             Sign up
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

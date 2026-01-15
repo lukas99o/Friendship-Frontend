@@ -105,7 +105,7 @@ describe('Events integration', () => {
       </MemoryRouter>
     )
 
-    const joinButton = await screen.findByRole('button', { name: 'Join' })
+    const joinButton = await screen.findByRole('button', { name: `Join` })
     const user = userEvent.setup()
     await user.click(joinButton)
 

@@ -92,7 +92,7 @@ describe('Login integration', () => {
 
     fetchMock
     .mockResolvedValueOnce(new Response(null, { status: 200 }))
-    .mockResolvedValueOnce(new Response('Du måste bekräfta din e-post först.', { status: 400 }))
+    .mockResolvedValueOnce(new Response('You must confirm your email first.', { status: 400 }))
 
     render(
       <MemoryRouter>

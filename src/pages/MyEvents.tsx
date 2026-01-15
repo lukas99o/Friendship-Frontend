@@ -111,8 +111,8 @@ export default function MyEvents() {
                                 <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(joinedEvents)}</div>
                             )
                         ) : (
-                            <div className="alert alert-info w-100 text-center">
-                                You havent joined any events yet.
+                            <div className="alert alert-info w-100 text-center" role="status">
+                                You haven't joined any events yet.
                             </div>
                         )
                     )}
@@ -124,8 +124,8 @@ export default function MyEvents() {
                                 <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(createdEvents, true)}</div>
                             )
                         ) : (
-                            <div className="alert alert-info w-100 text-center">
-                                You havent created any events yet.
+                            <div className="alert alert-info w-100 text-center" role="status">
+                                You haven't created any events yet.
                             </div>
                         )
                     )}
