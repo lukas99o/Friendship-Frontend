@@ -5,6 +5,9 @@ export async function getEvents(filters: {
     ageMin: number | null;
     ageMax: number | null;
     interests: string[] | null;
+    sort: "alphabetical" | "date";
+    page?: number;
+    pageSize?: number;
 }): Promise<EventDto[]> {
     const res = await fetch(`${API_BASE_URL}/api/event/publicevents`, {
         method: "POST",

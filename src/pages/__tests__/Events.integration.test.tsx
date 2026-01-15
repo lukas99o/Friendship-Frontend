@@ -92,7 +92,7 @@ describe('Events integration', () => {
     expect(screen.getByText('Event B')).toBeInTheDocument()
     expect(screen.queryByText('Event A')).not.toBeInTheDocument()
     expect(mockGetStatus).toHaveBeenCalledTimes(1)
-    expect(mockGetEvents).toHaveBeenCalledWith({ ageMin: null, ageMax: null, interests: null })
+    expect(mockGetEvents).toHaveBeenCalledWith({ ageMin: null, ageMax: null, interests: null, page: 1, pageSize: 10, sort: 'alphabetical' })
   })
 
   it('kan gå med i ett event och knappen uppdateras', async () => {

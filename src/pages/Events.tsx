@@ -10,18 +10,20 @@ import type { EventDto } from "../types.ts";
 
 export default function Events() {
     const [events, setEvents] = useState<EventDto[]>([]);
-    const [allEvents, setAllEvents] = useState<EventDto[]>([]);
+    const [page, setPage] = useState(1);
+    const PAGE_SIZE = 10;
+    const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [ageMin, setAgeMin] = useState<number | "">("");
     const [ageMax, setAgeMax] = useState<number | "">("");
     const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
+    const [prefetchedEvents, setPrefetchedEvents] = useState<EventDto[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [showOnlyFriendsEvents, setShowOnlyFriendsEvents] = useState(false);
-    const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
-    const [dateOrder, setDateOrder] = useState(false);
+    const [sortOrder, setSortOrder] = useState<"alphabetical" | "date">("alphabetical");
     const [width, setWidth] = useState(window.innerWidth);
-    const [currentPage, setCurrentPage] = useState(1);
-    const EVENTS_PER_PAGE = 10;
+    const [allFriendEvents, setAllFriendEvents] = useState<EventDto[]>([]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -40,14 +42,7 @@ export default function Events() {
                 const joined = await GetEventParticipantStatus();
                 setJoinedEvents(joined);
 
-                const allEvents = await getEvents({ ageMin: null, ageMax: null, interests: null });
-                const filteredEvents = allEvents.filter(e => !joined.includes(e.eventId));
-                const sorted = filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
-
-                setAllEvents(sorted);
-                setEvents(sorted.slice(0, EVENTS_PER_PAGE));
-                setAlphabeticalOrder(true);
-                setCurrentPage(1);
+                await loadPublicEvents({ page: 1, reset: true, joinedIds: joined });
                 setLoading(false);
             } catch (error) {
                 console.error("Något gick fel:", error);
@@ -57,38 +52,71 @@ export default function Events() {
         fetchData();
     }, []);
 
+    const loadPublicEvents = async ({ page: pageToLoad, reset, joinedIds }: { page: number; reset: boolean; joinedIds?: number[] }) => {
+        const joinedList = joinedIds ?? joinedEvents;
+        let buffer = reset ? [] : [...prefetchedEvents];
+        let currentPage = pageToLoad;
+        let hasPageRemaining = false;
+        let lastFetchedPage = reset ? pageToLoad - 1 : page;
 
-    const handleSearch = () => {
-        setLoading(true);
-        setCurrentPage(1);
-
-        if (showOnlyFriendsEvents) {
-            GetFriendEvents().then((res) => {
-                setAllEvents(res);
-                setEvents(res.slice(0, EVENTS_PER_PAGE));
-                setLoading(false);
-            });
-        }
-        else {
+        while (buffer.length < PAGE_SIZE) {
             const filters = {
                 ageMin: ageMin === "" ? null : ageMin,
                 ageMax: ageMax === "" ? null : ageMax,
                 interests: selectedInterests.length > 0 ? selectedInterests : null,
+                page: currentPage,
+                pageSize: PAGE_SIZE,
+                sort: sortOrder,
             };
 
-            getEvents(filters).then((res) => {
-                let filtered = res.filter(e => !joinedEvents.includes(e.eventId));
+            const response = await getEvents(filters);
+            const filtered = response.filter(e => !joinedList.includes(e.eventId));
+            buffer = [...buffer, ...filtered];
 
-                if (alphabeticalOrder) {
-                    filtered = filtered.sort((a, b) => a.title.localeCompare(b.title));
-                } else if (dateOrder) {
-                    filtered = filtered.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
-                }
+            lastFetchedPage = currentPage;
+            hasPageRemaining = response.length === PAGE_SIZE;
+            currentPage += 1;
 
-                setAllEvents(filtered);
-                setEvents(filtered.slice(0, EVENTS_PER_PAGE));
-                setLoading(false);
-            });
+            if (!hasPageRemaining) break;
+        }
+
+        const nextChunk = buffer.slice(0, PAGE_SIZE);
+        const remaining = buffer.slice(PAGE_SIZE);
+
+        if (reset) {
+            setEvents(nextChunk);
+        } else {
+            setEvents(prev => [...prev, ...nextChunk]);
+        }
+
+        setPrefetchedEvents(remaining);
+        setHasMore(remaining.length > 0 || hasPageRemaining);
+        setPage(lastFetchedPage);
+    };
+
+    const handleSearch = async () => {
+        setLoading(true);
+        setPage(1);
+        setHasMore(true);
+
+        if (showOnlyFriendsEvents) {
+            const res = await GetFriendEvents();
+            let filtered = res;
+
+            if (sortOrder === "alphabetical") {
+                filtered = filtered.sort((a: EventDto, b: EventDto) => a.title.localeCompare(b.title));
+            } else if (sortOrder === "date") {
+                filtered = filtered.sort((a: EventDto, b: EventDto) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+            }
+
+            setAllFriendEvents(filtered);
+            setEvents(filtered.slice(0, PAGE_SIZE));
+            setHasMore(filtered.length > PAGE_SIZE);
+            setLoading(false);
+        }
+        else {
+            await loadPublicEvents({ page: 1, reset: true });
+            setLoading(false);
         }
     };
 
@@ -110,16 +138,24 @@ export default function Events() {
         }
     }
 
-    const loadMore = () => {
-        const nextPage = currentPage + 1;
-        const startIdx = nextPage * EVENTS_PER_PAGE;
-        const endIdx = startIdx + EVENTS_PER_PAGE;
-        const newEvents = allEvents.slice(0, endIdx);
-        setEvents(newEvents);
-        setCurrentPage(nextPage);
-    };
+    const loadMore = async () => {
+        if (loadingMore) return;
 
-    const hasMore = events.length < allEvents.length;
+        if (showOnlyFriendsEvents) {
+            const nextPage = page + 1;
+            const endIdx = nextPage * PAGE_SIZE;
+            const newEvents = allFriendEvents.slice(0, endIdx);
+            setEvents(newEvents);
+            setHasMore(allFriendEvents.length > newEvents.length);
+            setPage(nextPage);
+            return;
+        }
+
+        setLoadingMore(true);
+        const nextPage = page + 1;
+        await loadPublicEvents({ page: nextPage, reset: false });
+        setLoadingMore(false);
+    };
 
     return (
         <div className="d-flex flex-column container">
@@ -180,12 +216,8 @@ export default function Events() {
                             <select
                                 id="sortDropdown"
                                 className="form-select filter-input"
-                                value={alphabeticalOrder ? "alphabetical" : dateOrder ? "date" : ""}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    setAlphabeticalOrder(value === "alphabetical");
-                                    setDateOrder(value === "date");
-                                }}
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value as "alphabetical" | "date")}
                                 style={{ cursor: "pointer" }}
                             >
                                 <option value="alphabetical">Alfabetiskt</option>
@@ -235,8 +267,8 @@ export default function Events() {
 
             {hasMore && (
                 <div className="d-flex justify-content-center pb-5">
-                    <button className="btn-orange" onClick={loadMore}>
-                        Ladda fler evenemang
+                    <button className="btn-orange" onClick={loadMore} disabled={loadingMore}>
+                        {loadingMore ? "Laddar..." : "Ladda fler evenemang"}
                     </button>
                 </div>
             )}
