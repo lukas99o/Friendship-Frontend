@@ -17,6 +17,7 @@ export default function CreateEventPage() {
     const [isPublic, setIsPublic] = useState(true);
     const [imgFile, setImgFile] = useState<File | null>(null);
     const [description, setDescription] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -61,6 +62,7 @@ export default function CreateEventPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isSubmitting) return;
         setError("");
 
         if (new Date(endTime) <= new Date(startTime)) {
@@ -74,6 +76,7 @@ export default function CreateEventPage() {
         }
 
         try {
+            setIsSubmitting(true);
             await CreateEvent({
                 title,
                 startTime: new Date(startTime).toISOString(),
@@ -90,6 +93,8 @@ export default function CreateEventPage() {
         } catch (err) {
             if (err instanceof Error)
                 setError(err.message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -299,8 +304,8 @@ export default function CreateEventPage() {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" className="btn-orange mt-0">
-                                Create
+                            <button type="submit" className="btn-orange mt-0" disabled={isSubmitting} aria-disabled={isSubmitting}>
+                                {isSubmitting ? "Creating..." : "Create"}
                             </button>
                         </form>
 
