@@ -20,8 +20,6 @@ export default function EventCard({
   edit,
   variant = "default" 
 }: EventCardProps) {
-  console.log("event img:", event.img);
-  console.log(`${API_BASE_URL}${event.img}`);
   return (
     <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "525px" }}>
       {event.img && (
